@@ -26,6 +26,13 @@ def _month_label(as_of: date, idx: int) -> str:
     return f"{y:04d}-{m:02d}"
 
 
+def _receipt_date(as_of: date, due: date, delay: int) -> date:
+    if due <= as_of:
+        overdue_days = (as_of - due).days
+        return as_of + timedelta(days=max(1, delay - overdue_days))
+    return due + timedelta(days=max(0, delay))
+
+
 def _delays(invoices: list[dict[str, Any]]) -> tuple[dict[str, list[int]], list[int]]:
     by_customer: dict[str, list[int]] = defaultdict(list)
     portfolio: list[int] = []
@@ -76,22 +83,14 @@ def cash_calendar(
         due = _d(inv["due_date"])
         amount = inv["amount_cents"] / 100
         delays = delays_by_customer.get(inv["customer_id"]) or portfolio_delays
-        overdue_days = max(0, (as_of - due).days)
         draws = rng.choice(delays, size=paths)
         for p, delay in enumerate(draws):
-            delay = int(delay)
-            if overdue_days:
-                receipt = as_of + timedelta(days=max(1, delay - overdue_days))
-            else:
-                receipt = due + timedelta(days=max(0, delay))
+            receipt = _receipt_date(as_of, due, int(delay))
             idx = _month_index(as_of, receipt)
             if 0 <= idx < horizon:
                 ar_paths[p, idx] += amount
         median_delay = int(round(float(np.median(delays))))
-        if overdue_days:
-            receipt = as_of + timedelta(days=max(1, median_delay - overdue_days))
-        else:
-            receipt = due + timedelta(days=max(0, median_delay))
+        receipt = _receipt_date(as_of, due, median_delay)
         idx = _month_index(as_of, receipt)
         if 0 <= idx < horizon:
             ar_expected[idx] += amount
@@ -161,7 +160,7 @@ def cash_calendar(
         },
         "assumptions": [
             "Runoff calendar: schedules open AR/AP only; no new sales or purchases are created",
-            "AR timing draws from historical customer payment delays; overdue invoices use residual delay",
+            "AR timing draws from historical customer payment delays; due/overdue invoices use residual delay",
             "AP pays gross at due date (next day if already overdue); discounts are not auto-applied",
             "Recurring overhead resamples historical cash flows not linked to invoice/bill settlements",
             "No default losses, taxes, capex, financing, or committed facility draws",

@@ -1,5 +1,6 @@
 from __future__ import annotations
 
+import calendar
 import hashlib
 import re
 from collections import defaultdict
@@ -37,11 +38,13 @@ def is_overdue(row: dict[str, Any], as_of: str) -> bool:
 
 
 def monthly_cash_series(cash: list[dict[str, Any]], as_of: str) -> list[dict[str, Any]]:
-    totals: dict[str, dict[str, int]] = defaultdict(lambda: {"receipts": 0, "payments": 0})
+    months = _complete_month_range(as_of, [tx["txn_date"] for tx in cash])
+    month_set = set(months)
+    totals: dict[str, dict[str, int]] = {m: {"receipts": 0, "payments": 0} for m in months}
     for tx in cash:
-        if tx["txn_date"] > as_of:
-            continue
         month = tx["txn_date"][:7]
+        if month not in month_set:
+            continue
         if tx["amount_cents"] >= 0:
             totals[month]["receipts"] += tx["amount_cents"]
         else:
@@ -69,7 +72,8 @@ def overview(dataset: dict[str, Any]) -> dict[str, Any]:
     as_of = dataset["meta"]["as_of"]
     invoices, bills = dataset["invoices"], dataset["bills"]
     overdue = [r for r in invoices if is_overdue(r, as_of)]
-    open_ap = [r for r in bills if not is_paid(r) and r["due_date"] >= as_of]
+    open_ap = [r for r in bills if not is_paid(r)]
+    overdue_ap = [r for r in open_ap if r["due_date"] < as_of]
     series = monthly_cash_series(dataset["cash_transactions"], as_of)
     last = series[-1] if series else {"receipts": 0, "payments": 0, "net": 0}
     aging = {"current": 0, "1_30": 0, "31_60": 0, "61_90": 0, "90_plus": 0}
@@ -97,6 +101,8 @@ def overview(dataset: dict[str, Any]) -> dict[str, Any]:
         "overdue_ar_count": len(overdue),
         "open_ap": dollars(sum(r["amount_cents"] for r in open_ap)),
         "open_ap_count": len(open_ap),
+        "overdue_ap": dollars(sum(r["amount_cents"] for r in overdue_ap)),
+        "overdue_ap_count": len(overdue_ap),
         "last_month_receipts": last["receipts"],
         "last_month_payments": last["payments"],
         "last_month_net": last["net"],
@@ -173,6 +179,13 @@ def _normalize_invoice_number(value: str) -> str:
     return re.sub(r"[^A-Z0-9]", "", value.upper())
 
 
+def _find(parent: list[int], i: int) -> int:
+    while parent[i] != i:
+        parent[i] = parent[parent[i]]
+        i = parent[i]
+    return i
+
+
 def duplicate_candidates(
     bills: list[dict[str, Any]], window_days: int = 14
 ) -> list[list[dict[str, Any]]]:
@@ -187,16 +200,15 @@ def duplicate_candidates(
     out = []
     for rows in groups.values():
         rows = sorted(rows, key=lambda r: (r["issue_date"], r["id"]))
-        cluster = [rows[0]]
-        for row in rows[1:]:
-            if (_d(row["issue_date"]) - _d(cluster[0]["issue_date"])).days <= window_days:
-                cluster.append(row)
-            else:
-                if len(cluster) > 1:
-                    out.append(cluster)
-                cluster = [row]
-        if len(cluster) > 1:
-            out.append(cluster)
+        parent = list(range(len(rows)))
+        for i in range(len(rows)):
+            for j in range(i + 1, len(rows)):
+                if (_d(rows[j]["issue_date"]) - _d(rows[i]["issue_date"])).days <= window_days:
+                    parent[_find(parent, j)] = _find(parent, i)
+        clusters: dict[int, list[dict[str, Any]]] = defaultdict(list)
+        for i, row in enumerate(rows):
+            clusters[_find(parent, i)].append(row)
+        out.extend(cluster for cluster in clusters.values() if len(cluster) > 1)
     return out
 
 
@@ -219,7 +231,7 @@ def _duplicate_recommendations(dataset: dict[str, Any]) -> list[dict[str, Any]]:
                 "value_label": "Potential duplicate exposure (unconfirmed)",
                 "priority": dollars(exposure) * 1.2,
                 "confidence": "Deterministic control match",
-                "method": "Exact match on vendor + normalized invoice number + amount; issue dates within 14 days.",
+                "method": "Exact match on vendor + normalized invoice number + amount; issue dates linked within 14 days.",
                 "assumptions": [
                     "Invoice numbers are reliable",
                     "Legitimate installments may share a number",
@@ -287,9 +299,16 @@ def _discount_recommendations(
     as_of = dataset["meta"]["as_of"]
     cash = cash_balance(dataset)
     out = []
-    for opp in discount_opportunities(dataset, financing_rate):
-        if cash - opp["pay_now"] < MIN_BUFFER:
+    selected_pay_now = 0.0
+    opportunities = sorted(
+        discount_opportunities(dataset, financing_rate), key=lambda o: -o["net_savings"]
+    )
+    for opp in opportunities:
+        cash_after = cash - selected_pay_now - opp["pay_now"]
+        if cash_after < MIN_BUFFER:
             continue
+        selected_pay_now += opp["pay_now"]
+        opp = {**opp, "cash_after_selection": round(cash_after, 2)}
         out.append(
             {
                 "id": _rid("discount", opp["bill_id"], as_of),
@@ -306,7 +325,7 @@ def _discount_recommendations(
                 "assumptions": [
                     f"Financing APR is {financing_rate:.2%}",
                     "Simple interest, 365-day year",
-                    f"Cash buffer remains at least {MIN_BUFFER:,.0f} USD after payment",
+                    f"Cash buffer remains at least {MIN_BUFFER:,.0f} USD after this and higher-priority selected discounts",
                     "No fees, taxes, or credit-risk change",
                 ],
                 "evidence": opp,
@@ -315,10 +334,30 @@ def _discount_recommendations(
     return out
 
 
+def _complete_month_range(as_of: str, dates: list[str]) -> list[str]:
+    snapshot = _d(as_of)
+    month_end = snapshot.replace(day=calendar.monthrange(snapshot.year, snapshot.month)[1])
+    end = snapshot if snapshot == month_end else (snapshot.replace(day=1) - timedelta(days=1))
+    eligible = [d[:7] for d in dates if d <= end.isoformat()]
+    if not eligible:
+        return []
+    start = min(eligible)
+    end_ym = end.strftime("%Y-%m")
+    if start > end_ym:
+        return []
+    y, m = map(int, start.split("-"))
+    out = []
+    while f"{y:04d}-{m:02d}" <= end_ym:
+        out.append(f"{y:04d}-{m:02d}")
+        m += 1
+        if m == 13:
+            y, m = y + 1, 1
+    return out
+
+
 def expense_drift(dataset: dict[str, Any]) -> list[dict[str, Any]]:
     as_of = dataset["meta"]["as_of"]
-    months = sorted({b["issue_date"][:7] for b in dataset["bills"] if b["issue_date"] <= as_of})
-    # Use only complete months; the demo snapshot is month-end.
+    months = _complete_month_range(as_of, [b["issue_date"] for b in dataset["bills"]])
     totals: dict[str, list[float]] = defaultdict(list)
     for category in sorted({b["category"] for b in dataset["bills"]}):
         for month in months:
@@ -355,7 +394,7 @@ def expense_drift(dataset: dict[str, Any]) -> list[dict[str, Any]]:
 
 def _expense_recommendations(dataset: dict[str, Any]) -> list[dict[str, Any]]:
     as_of = dataset["meta"]["as_of"]
-    months = sorted({b["issue_date"][:7] for b in dataset["bills"] if b["issue_date"] <= as_of})
+    months = _complete_month_range(as_of, [b["issue_date"] for b in dataset["bills"]])
     out = []
     for t in expense_drift(dataset):
         if not t["flagged"]:
@@ -526,6 +565,74 @@ def data_quality(dataset: dict[str, Any]) -> dict[str, Any]:
         len({r["id"] for r in dataset["invoices"] + dataset["bills"]})
         == len(dataset["invoices"]) + len(dataset["bills"]),
         "AR and AP identifiers are unique.",
+    )
+
+    def valid_date(value: Any) -> bool:
+        try:
+            date.fromisoformat(str(value))
+            return True
+        except ValueError:
+            return False
+
+    docs = dataset["invoices"] + dataset["bills"]
+    add(
+        "Valid document date order",
+        all(
+            valid_date(r["issue_date"])
+            and valid_date(r["due_date"])
+            and r["issue_date"] <= r["due_date"]
+            for r in docs
+        ),
+        "Issue dates are valid and not after due dates.",
+    )
+    add(
+        "No future cash transactions",
+        all(
+            valid_date(tx["txn_date"]) and tx["txn_date"] <= as_of
+            for tx in dataset["cash_transactions"]
+        ),
+        "Cash transaction dates are valid and do not exceed the snapshot date.",
+    )
+    add(
+        "Unique cash IDs",
+        len({tx["id"] for tx in dataset["cash_transactions"]}) == len(dataset["cash_transactions"]),
+        "Cash transaction identifiers are unique.",
+    )
+    add(
+        "Settlement amounts within gross",
+        all(not is_paid(r) or 0 < r["paid_amount_cents"] <= r["amount_cents"] for r in docs),
+        "Paid amounts are positive and do not exceed document gross amounts.",
+    )
+    inv_by_id = {r["id"]: r for r in dataset["invoices"]}
+    bill_by_id = {r["id"]: r for r in dataset["bills"]}
+    linked: dict[tuple[str, str], list[dict[str, Any]]] = defaultdict(list)
+    source_ok = True
+    for tx in dataset["cash_transactions"]:
+        st, sid = tx.get("source_type"), tx.get("source_id")
+        if not st and not sid:
+            continue
+        if st not in ("invoice", "bill") or not sid:
+            source_ok = False
+            continue
+        doc = inv_by_id.get(sid) if st == "invoice" else bill_by_id.get(sid)
+        if doc is None or not doc.get("paid_date"):
+            source_ok = False
+            continue
+        linked[(st, sid)].append(tx)
+        expected = doc["paid_amount_cents"] if st == "invoice" else -doc["paid_amount_cents"]
+        if tx["txn_date"] != doc["paid_date"] or tx["amount_cents"] != expected:
+            source_ok = False
+    for kind, docs_by_id in (("invoice", inv_by_id), ("bill", bill_by_id)):
+        for doc in docs_by_id.values():
+            n = len(linked.get((kind, doc["id"]), []))
+            if doc.get("paid_date") and n != 1:
+                source_ok = False
+            if not doc.get("paid_date") and n:
+                source_ok = False
+    add(
+        "Cash source reconciliation",
+        source_ok,
+        "Linked cash transactions match paid documents one-to-one by date and settlement amount.",
     )
     dupes = duplicate_candidates(dataset["bills"])
     add(

@@ -24,6 +24,7 @@ Open a GitHub issue for non-sensitive bugs. For sensitive vulnerabilities, use a
 ## v1.1 import hardening
 - CSV bundle payload bounded to 2 MiB total and 5,000 rows per table; validation reports at most 100 errors.
 - Strict CSV parsing (`csv.DictReader(..., strict=True)`) with malformed-quote handling.
+- Configuration is validated at startup (date, host, port, bootstrap paths/block) to fail fast on invalid environment settings.
 - Dry-run validation performs no writes; commit revalidates and checks a SHA-256 fingerprint plus explicit `REPLACE` confirmation.
 - Replacement is a single SQLite transaction; failed writes rollback and preserve prior ledger/audit state.
 - Import clears review state because old recommendation evidence no longer applies; audit history is preserved and an import event is appended.

@@ -130,12 +130,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         }
 
     @app.get("/api/recommendations/{recommendation_id}", tags=["analytics"])
-    def get_recommendation(recommendation_id: str, store: Storage = Store) -> dict:
+    def get_recommendation(
+        recommendation_id: str,
+        financing_rate: float = Query(0.08, ge=0, le=0.5),
+        horizon: int = Query(6, ge=1, le=12),
+        store: Storage = Store,
+    ) -> dict:
         recs = build_recommendations(
             store.load(),
-            paths=settings.bootstrap_paths,
-            block=settings.bootstrap_block,
-            seed=settings.seed,
+            financing_rate,
+            horizon,
+            settings.bootstrap_paths,
+            settings.bootstrap_block,
+            settings.seed,
         )
         for rec in recs:
             if rec["id"] == recommendation_id:
@@ -144,13 +151,19 @@ def create_app(settings: Settings | None = None) -> FastAPI:
 
     @app.patch("/api/recommendations/{recommendation_id}/review", tags=["review"])
     def review_recommendation(
-        recommendation_id: str, body: ReviewRequest, store: Storage = Store
+        recommendation_id: str,
+        body: ReviewRequest,
+        financing_rate: float = Query(0.08, ge=0, le=0.5),
+        horizon: int = Query(6, ge=1, le=12),
+        store: Storage = Store,
     ) -> dict:
         recs = build_recommendations(
             store.load(),
-            paths=settings.bootstrap_paths,
-            block=settings.bootstrap_block,
-            seed=settings.seed,
+            financing_rate,
+            horizon,
+            settings.bootstrap_paths,
+            settings.bootstrap_block,
+            settings.seed,
         )
         if not any(r["id"] == recommendation_id for r in recs):
             raise HTTPException(404, "Recommendation not found")
@@ -323,7 +336,7 @@ def create_app(settings: Settings | None = None) -> FastAPI:
         return {
             "manifest": {
                 "name": "acnopviz-import",
-                "version": "1.1.0",
+                "version": __version__,
                 "synthetic": True,
                 "currency": "USD",
                 "schema_version": 1,

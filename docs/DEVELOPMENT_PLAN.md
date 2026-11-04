@@ -42,3 +42,7 @@ Deliver a runnable, testable v1 of **acnopviz** that turns a synthetic accountin
 - Richer cash calendar (known AR/AP due dates) and committed facilities.
 - Approval queues, segregation of duties, and immutable external audit log.
 - Accessibility audit with assistive technology and localization.
+
+
+## v1.1.0 execution status
+Implemented and verified: committed cash calendar, walk-forward backtest, validated atomic CSV import, synthetic improvement fixtures, new API/UI views, and expanded tests. See [IMPROVEMENT_PLAN.md](IMPROVEMENT_PLAN.md) and [TEST_REPORT.md](TEST_REPORT.md).

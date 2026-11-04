@@ -38,7 +38,7 @@ Synthetic dataset: 18 complete months (2025-05 through 2026-10), as-of 2026-10-3
 | paid_date / paid_amount_cents | optional | Settlement if paid by snapshot |
 | category | text | Expense category |
 | discount_percent | real 0-<100 | Early-payment discount percent |
-| discount_days | integer | Days from issue to discount deadline |
+| discount_days | integer | Days from issue to discount deadline; must end before the net due date |
 
 ## cash_transactions.csv
 | Column | Type | Notes |

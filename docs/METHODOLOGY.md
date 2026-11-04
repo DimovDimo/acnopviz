@@ -42,20 +42,26 @@ Compute monthly net operating cash flow from settled cash transactions. Resample
 
 Report P10/P50/P90 ending cash by month, probability of any negative month-end balance, and additional reserve equal to the negative 10th-percentile minimum balance (floored at zero). This is a historical-resampling stress test, not a guaranteed forecast.
 
+## 5a. Duplicate clustering (v1.1.1)
+Candidate bills are grouped by vendor, normalized invoice number, and gross amount. Issue dates are linked into connected components when consecutive candidate dates are within 14 days, so chained matches are not missed. Clusters are warnings for human review, not proof of error.
+
 ## 6. Data quality
-Checks include customer/vendor references, positive amounts, no future-paid documents, settlement presence, AR/AP settlement-to-cash reconciliation, unique IDs, and duplicate-candidate warnings. Reconciliation failures are `fail`; duplicate candidates are `warn`.
+Checks include customer/vendor references, positive amounts, valid document date order, no future-paid documents or future cash transactions, settlement presence and amounts within gross, unique AR/AP/cash IDs, one-to-one cash-source reconciliation, and duplicate-candidate warnings. Reconciliation failures are `fail`; duplicate candidates are `warn`.
 
 ## 7. What this does not do
 No Benford's law, deep learning, tax optimization, automatic payments, journal posting, or claims of validated real-world savings. See [RESEARCH.md](RESEARCH.md) for trade-offs.
 
 ## 8. Committed cash calendar (v1.1)
 `analysis/calendar.py` builds a runoff forecast from the snapshot:
-- **Open AR:** for each simulated path, draw a historical payment delay for the customer (fallback: portfolio). Future-due invoices receipt at `due + max(0, delay)`. Overdue invoices use residual delay `max(1, delay - days_overdue)`. Amounts are gross; no default loss is modeled.
+- **Open AR:** for each simulated path, draw a historical payment delay for the customer (fallback: portfolio). Future-due invoices receipt at `due + max(0, delay)`. Due-today and overdue invoices use residual delay `max(1, delay - days_overdue)` from the snapshot date. Amounts are gross; no default loss is modeled.
 - **Open AP:** pay gross at due date, or the next day if already overdue. Discounts are not automatically applied.
 - **Recurring overhead:** resample historical monthly cash flows whose `source_type` is not `invoice` or `bill`. This exclusion prevents double counting linked settlements.
 - Combine components into simulated ending-cash paths; report expected monthly components, P10/P50/P90 ending cash, probability of any negative month-end balance, and reserve for the 10th-percentile minimum balance.
 
 This is a **runoff** calendar: it does not create new sales or purchases after the snapshot. Long horizons can therefore decline even when the near-term expected balance is positive.
+
+## 8a. Complete-month analytics (v1.1.1)
+Expense drift and monthly cash series include only complete months as of the snapshot and fill missing months with zero. If the snapshot is mid-month, the current partial month is excluded. Discount recommendations rank opportunities by net savings and apply the minimum cash buffer cumulatively across selected payments.
 
 ## 9. Walk-forward backtest (v1.1)
 `analysis/backtest.py` evaluates the historical monthly net-flow bootstrap with expanding windows. Default: `min_train=9`, `horizon=3`, step 1. Each fold uses only training months, compares bootstrap median cumulative net flow with a naive last-value benchmark, and reports MAE, RMSE, bias, P10-P90 coverage, and mean interval width. Overlapping folds are not independent; synthetic results are not evidence of real-world skill.

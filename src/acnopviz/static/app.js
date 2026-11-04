@@ -2,7 +2,7 @@
 "use strict";
 const $ = (sel, root = document) => root.querySelector(sel);
 const $$ = (sel, root = document) => [...root.querySelectorAll(sel)];
-const state = { view: "overview", overview: null, recs: [], tx: { type: "all", search: "", offset: 0, limit: 25 }, scenario: null };
+const state = { view: "overview", overview: null, recs: [], tx: { type: "all", search: "", offset: 0, limit: 25 }, scenario: null, importBundle: null };
 const money = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", maximumFractionDigits: 0 });
 const money2 = new Intl.NumberFormat("en-US", { style: "currency", currency: "USD", minimumFractionDigits: 2, maximumFractionDigits: 2 });
 const pct = (x, d = 1) => `${(x * 100).toFixed(d)}%`;
@@ -33,7 +33,13 @@ function lineChart(series, keys, labels, colors, height = 220) {
   for (let g = 0; g <= 4; g++) { const v = min + (max - min) * g / 4; const yy = y(v); svg += `<line x1="${pad.l}" y1="${yy}" x2="${w - pad.r}" y2="${yy}" stroke="#e5ebee"/><text x="${pad.l - 8}" y="${yy + 4}" text-anchor="end">${esc(money.format(v))}</text>`; }
   keys.forEach((k, ki) => { const pts = series.map((d, i) => `${x(i)},${y(Number(d[k]) || 0)}`).join(" "); svg += `<polyline points="${pts}" fill="none" stroke="${colors[ki]}" stroke-width="2.5"/>`; });
   const step = Math.max(1, Math.ceil(series.length / 6));
-  series.forEach((d, i) => { if (i % step === 0 || i === series.length - 1) svg += `<text x="${x(i)}" y="${h - 10}" text-anchor="middle">${esc(d.month || d.label || i + 1)}</text>`; });
+  series.forEach((d, i) => {
+    if (i % step !== 0 && i !== series.length - 1) return;
+    const last = i === series.length - 1, first = i === 0;
+    const anchor = last ? "end" : first ? "start" : "middle";
+    const tx = last ? w - 4 : first ? pad.l : x(i);
+    svg += `<text x="${tx}" y="${h - 10}" text-anchor="${anchor}">${esc(d.month || d.label || i + 1)}</text>`;
+  });
   return svg + "</svg>";
 }
 function bandChart(sim) {
@@ -46,7 +52,7 @@ function bandChart(sim) {
   const band = (lo, hi) => `${path(hi)} ${[...lo].reverse().map((v, i) => `L${x(lo.length - 1 - i)},${y(v)}`).join(" ")} Z`;
   let svg = `<svg class="chart" viewBox="0 0 ${w} ${h}" role="img" aria-label="Baseline and scenario cash balance quantiles"><line x1="${pad.l}" y1="${y(0)}" x2="${w - pad.r}" y2="${y(0)}" stroke="#94a3b8" stroke-dasharray="4 4"/>`;
   svg += `<path d="${band(sc.p10, sc.p90)}" fill="#ccfbf1" opacity="0.7"/><path d="${path(base.p50)}" fill="none" stroke="#94a3b8" stroke-width="2" stroke-dasharray="5 4"/><path d="${path(sc.p50)}" fill="none" stroke="#0f766e" stroke-width="3"/>`;
-  base.months.forEach((m, i) => { svg += `<text x="${x(i)}" y="${h - 10}" text-anchor="middle">M${m}</text>`; });
+  base.months.forEach((m, i) => { const last = i === base.months.length - 1; svg += `<text x="${last ? w - 4 : x(i)}" y="${h - 10}" text-anchor="${last ? "end" : "middle"}">M${m}</text>`; });
   for (let g = 0; g <= 4; g++) { const v = min + (max - min) * g / 4; svg += `<text x="${pad.l - 8}" y="${y(v) + 4}" text-anchor="end">${esc(money.format(v))}</text>`; }
   return svg + "</svg>";
 }
@@ -66,7 +72,7 @@ async function loadOverview() {
     <div class="grid kpis">
       <div class="card"><div class="kpi-label">Cash balance</div><div class="kpi-value">${money.format(o.cash)}</div><div class="kpi-foot">Opening cash + settled transactions</div></div>
       <div class="card"><div class="kpi-label">Overdue receivables</div><div class="kpi-value">${money.format(o.overdue_ar)}</div><div class="kpi-foot">${o.overdue_ar_count} open overdue invoices</div></div>
-      <div class="card"><div class="kpi-label">Open payables</div><div class="kpi-value">${money.format(o.open_ap)}</div><div class="kpi-foot">${o.open_ap_count} bills not yet due</div></div>
+      <div class="card"><div class="kpi-label">Open payables</div><div class="kpi-value">${money.format(o.open_ap)}</div><div class="kpi-foot">${o.open_ap_count} unpaid bills · ${o.overdue_ap_count} overdue</div></div>
       <div class="card"><div class="kpi-label">Last month net cash</div><div class="kpi-value ${netClass}">${money.format(o.last_month_net)}</div><div class="kpi-foot">Receipts ${money.format(o.last_month_receipts)} · payments ${money.format(o.last_month_payments)}</div></div>
     </div>
     <div class="grid two mt16">
@@ -127,7 +133,7 @@ async function loadScenario() {
       <button class="button" type="submit">Run scenario</button></form></div><div id="scenario-result" class="scenario-result"></div>`;
   const form = $("#scenario-form");
   $$("input", form).forEach(input => input.addEventListener("input", () => { const out = $(`#${input.id}_out`); out.textContent = input.id === "horizon" ? input.value : pct(Number(input.value), input.id === "recovery_uplift" ? 0 : 1); }));
-  form.addEventListener("submit", async e => { e.preventDefault(); await runScenario(); });
+  form.addEventListener("submit", e => { e.preventDefault(); runScenario().catch(showAlert); });
   await runScenario();
 }
 async function runScenario() {
@@ -169,7 +175,13 @@ async function loadQuality() {
 }
 async function loadAudit() {
   const data = await api("/api/audit");
-  $("#view-audit").innerHTML = `<p class="section-intro">Local review decisions are persisted in SQLite and appended to an audit trail. This is a demo audit log, not a tamper-proof compliance archive.</p><div class="card">${data.items.length ? data.items.map(a => `<div class="audit-item"><time>${esc(a.created_at)}</time><div><strong>${esc(a.event_type)}</strong> · ${esc(a.entity_id)}</div><div class="muted">Status: ${esc(a.detail.status)}${a.detail.note ? ` · Note: ${esc(a.detail.note)}` : ""}</div></div>`).join("") : `<div class="empty">No review decisions yet.</div>`}</div>`;
+  const detailText = (a) => {
+    const d = a.detail || {};
+    if (a.event_type === "recommendation.review") return `Status: ${esc(d.status ?? "unknown")}${d.note ? ` · Note: ${esc(d.note)}` : ""}`;
+    if (a.event_type === "dataset.import") return `As of ${esc(d.as_of ?? "unknown")} · Fingerprint ${esc(d.fingerprint ?? a.entity_id)} · Rows ${esc(JSON.stringify(d.counts ?? {}))}`;
+    return esc(JSON.stringify(d));
+  };
+  $("#view-audit").innerHTML = `<p class="section-intro">Local review decisions and dataset imports are persisted in SQLite and appended to an audit trail. This is a demo audit log, not a tamper-proof compliance archive.</p><div class="card">${data.items.length ? data.items.map(a => `<div class="audit-item"><time>${esc(a.created_at)}</time><div><strong>${esc(a.event_type)}</strong> · ${esc(a.entity_id)}</div><div class="muted">${detailText(a)}</div></div>`).join("") : `<div class="empty">No audit events yet.</div>`}</div>`;
 }
 function loadMethod() {
   $("#view-method").innerHTML = `<p class="section-intro">Statistical signals are separated from deterministic controls. None of these methods proves fraud, default, or achievable savings.</p>
@@ -187,7 +199,7 @@ function loadMethod() {
 async function loadCalendar() {
   $("#view-calendar").innerHTML = `<p class="section-intro">Committed runoff calendar: schedules open AR/AP and resamples only unlinked recurring cash flows. It does not create new sales or purchases.</p>
     <div class="toolbar"><label>Horizon<select id="cal-horizon">${[3,6,9,12].map(h=>`<option value="${h}" ${h===6?"selected":""}>${h} months</option>`).join("")}</select></label><button class="button" id="cal-run">Refresh</button></div><div id="cal-result"><div class="loading">Loading…</div></div>`;
-  $("#cal-run").addEventListener("click", runCalendar); $("#cal-horizon").addEventListener("change", runCalendar);
+  $("#cal-run").addEventListener("click", () => runCalendar().catch(showAlert)); $("#cal-horizon").addEventListener("change", () => runCalendar().catch(showAlert));
   await runCalendar();
 }
 async function runCalendar() {
@@ -207,7 +219,7 @@ async function loadBacktest() {
   $("#view-backtest").innerHTML = `<p class="section-intro">Expanding-window walk-forward validation of the historical monthly liquidity model. Synthetic-only; overlapping folds are not independent.</p>
     <div class="toolbar"><label>Horizon<select id="bt-horizon">${[1,2,3,6].map(h=>`<option value="${h}" ${h===3?"selected":""}>${h} months</option>`).join("")}</select></label>
     <label>Min train months<input id="bt-min" type="number" min="6" max="36" value="9"></label><button class="button" id="bt-run">Run backtest</button></div><div id="bt-result"><div class="loading">Loading…</div></div>`;
-  $("#bt-run").addEventListener("click", runBacktest); await runBacktest();
+  $("#bt-run").addEventListener("click", () => runBacktest().catch(showAlert)); await runBacktest();
 }
 async function runBacktest() {
   const h = Number($("#bt-horizon").value), min = Number($("#bt-min").value);
@@ -230,7 +242,9 @@ function loadImport() {
     ${tables.map(t=>`<label>${t}.csv<input id="imp-${t}" type="file" accept=".csv,text/csv" data-table="${t}"></label>`).join("")}</div>
     <div class="toolbar mt16"><button class="button" id="imp-validate">Validate bundle</button><label class="check"><input id="imp-confirm" type="checkbox"> I understand this replaces the ledger and clears reviews</label><button class="button danger" id="imp-commit" disabled>Commit replace</button></div></div>
     <div id="imp-result" class="mt16"></div>`;
-  $("#imp-template").addEventListener("click", async () => { const t = await api("/api/import/template"); const blob = new Blob([JSON.stringify(t, null, 2)], {type:"application/json"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "acnopviz-import-template.json"; a.click(); URL.revokeObjectURL(a.href); });
+  const invalidateImport = () => { state.importBundle = null; $("#imp-commit").disabled = true; $("#imp-result").innerHTML = `<div class="card muted">Bundle changed. Validate again before committing.</div>`; };
+  $$('input[type="file"]', $("#view-import")).forEach(input => input.addEventListener("change", invalidateImport));
+  $("#imp-template").addEventListener("click", async () => { try { const t = await api("/api/import/template"); const blob = new Blob([JSON.stringify(t, null, 2)], {type:"application/json"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "acnopviz-import-template.json"; a.click(); URL.revokeObjectURL(a.href); } catch(e){ showAlert(e); } });
   $("#imp-validate").addEventListener("click", async () => {
     try {
       const manifestFile = $("#imp-manifest").files[0]; if (!manifestFile) throw new Error("Choose manifest.json");

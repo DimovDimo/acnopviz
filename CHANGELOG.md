@@ -5,6 +5,28 @@ All notable changes to this project are documented in this file.
 The format is based on [Keep a Changelog](https://keepachangelog.com/en/1.1.0/),
 and this project adheres to [Semantic Versioning](https://semver.org/spec/v2.0.0.html).
 
+## [1.1.1] - 2026-11-04
+
+### Fixed
+- **Cash calendar:** invoices due on the snapshot date are now scheduled (next-day residual receipt) instead of being silently dropped from AR totals and monthly receipts.
+- **Discount recommendations:** cash-buffer checks are cumulative across selected discounts, ranked by net savings, and expose `cash_after_selection`; multiple discounts can no longer collectively breach the minimum buffer.
+- **Duplicate detection:** chained matches (e.g., day 0/10/20 within a 14-day window) are clustered via connected components instead of missing later pairs.
+- **Monthly analytics:** expense drift and monthly cash series use only complete months and fill missing months with zero, avoiding partial-snapshot bias and unequal-spacing assumptions in Theil-Sen.
+- **Open payables:** overview now includes overdue unpaid AP in open payables and reports `overdue_ap`/`overdue_ap_count`; dashboard footnote updated.
+- **Configuration:** `Settings` validates `as_of`, host, port, bootstrap paths, and block size at startup instead of allowing runtime 500s.
+- **Import validation:** discount windows that reach or pass the net due date are rejected.
+- **Data quality:** added checks for valid document date order, future cash transactions, unique cash IDs, settlement amounts within gross, and one-to-one cash-source reconciliation.
+- **Recommendation API:** detail and review endpoints accept `financing_rate`/`horizon` so horizon- or rate-specific recommendations can be opened and reviewed.
+- **Dashboard audit:** import events render fingerprint/as-of/row counts instead of `Status: undefined`.
+- **Dashboard import:** changing any uploaded file invalidates prior validation and disables commit until revalidation.
+- **Dashboard errors:** calendar/backtest/scenario/template actions catch async failures and show the alert banner.
+- **Dashboard charts:** first/last x-axis labels are anchored inward to prevent clipping.
+- **Import template:** manifest version now follows the package version instead of a hardcoded string.
+
+### Changed
+- Version metadata, template manifest, README, methodology, data dictionary, security notes, test report, and audit report updated for the patch.
+- Regression suite expanded to 80 tests (unit, integration, Playwright E2E).
+
 ## [1.1.0] - 2026-11-04
 
 ### Added

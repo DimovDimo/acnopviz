@@ -116,7 +116,52 @@ def test_v11_calendar_backtest_and_import(browser, live_url, tmp_path):
     page.locator("#imp-confirm").check()
     page.get_by_role("button", name="Commit replace").click()
     expect(page.locator("#toast")).to_contain_text("Ledger replaced")
+    page.locator('.nav-item[data-view="audit"]').click()
+    expect(page.locator("#view-audit")).to_contain_text("dataset.import")
+    expect(page.locator("#view-audit")).not_to_contain_text("undefined")
     page.locator('.nav-item[data-view="quality"]').click()
     expect(page.locator("#view-quality")).to_contain_text('"seed": 111')
     assert not errors, errors
+    page.close()
+
+
+def test_import_file_change_invalidates_validation(browser, live_url):
+    page = browser.new_page(viewport={"width": 1440, "height": 1000})
+    page.goto(live_url)
+    page.locator('.nav-item[data-view="import"]').click()
+    root = Path(__file__).resolve().parents[2] / "data" / "synthetic" / "improvements"
+    valid = root / "valid_bundle"
+    page.locator("#imp-manifest").set_input_files(str(valid / "manifest.json"))
+    for table in ["customers", "vendors", "invoices", "bills", "cash_transactions"]:
+        page.locator(f"#imp-{table}").set_input_files(str(valid / f"{table}.csv"))
+    page.get_by_role("button", name="Validate bundle").click()
+    expect(page.locator("#imp-result")).to_contain_text("Valid bundle")
+    expect(page.locator("#imp-commit")).to_be_enabled()
+    page.locator("#imp-bills").set_input_files(str(root / "invalid_bundle" / "bills.csv"))
+    expect(page.locator("#imp-commit")).to_be_disabled()
+    expect(page.locator("#imp-result")).to_contain_text("Validate again")
+    page.close()
+
+
+def test_async_action_errors_are_shown(browser, live_url):
+    page = browser.new_page(viewport={"width": 1440, "height": 1000})
+    errors = []
+    page.on("pageerror", lambda e: errors.append(str(e)))
+    page.goto(live_url)
+    page.locator('.nav-item[data-view="scenario"]').click()
+    expect(page.locator("#scenario-result")).to_contain_text("Baseline P(negative)")
+    page.route("**/api/scenario", lambda route: route.abort())
+    page.get_by_role("button", name="Run scenario").click()
+    expect(page.locator("#alert")).to_be_visible()
+    assert not errors, errors
+    page.close()
+
+
+def test_calendar_chart_last_label_is_not_clipped(browser, live_url):
+    page = browser.new_page(viewport={"width": 1440, "height": 1000})
+    page.goto(live_url)
+    page.locator('.nav-item[data-view="calendar"]').click()
+    page.wait_for_selector("#cal-result svg")
+    last = page.locator("#cal-result svg text").last
+    expect(last).to_have_attribute("text-anchor", "end")
     page.close()

@@ -277,6 +277,12 @@ def parse_bundle(manifest: Any, files: Any) -> tuple[dict[str, Any] | None, list
             errors.add("bills", i, "vendor_id", "unknown vendor")
         if issue and due and issue > due:
             errors.add("bills", i, "due_date", "due date before issue date")
+        if issue and due and row.get("discount_days") is not None:
+            net_days = (due - issue).days
+            if row["discount_days"] >= net_days:
+                errors.add(
+                    "bills", i, "discount_days", "discount window must end before the net due date"
+                )
         paid_date = (
             _date(r["paid_date"], "bills", i, "paid_date", errors) if r["paid_date"] else None
         )

@@ -2,6 +2,7 @@ from __future__ import annotations
 
 import os
 from dataclasses import dataclass
+from datetime import date
 from pathlib import Path
 
 
@@ -14,6 +15,17 @@ class Settings:
     port: int = 8000
     bootstrap_paths: int = 2000
     bootstrap_block: int = 3
+
+    def __post_init__(self) -> None:
+        date.fromisoformat(self.as_of)
+        if not self.host:
+            raise ValueError("host must not be empty")
+        if not 1 <= self.port <= 65535:
+            raise ValueError("port must be between 1 and 65535")
+        if not 100 <= self.bootstrap_paths <= 20000:
+            raise ValueError("bootstrap_paths must be between 100 and 20000")
+        if not 1 <= self.bootstrap_block <= 24:
+            raise ValueError("bootstrap_block must be between 1 and 24")
 
     @classmethod
     def from_env(cls) -> Settings:

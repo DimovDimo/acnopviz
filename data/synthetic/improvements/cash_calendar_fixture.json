@@ -51,7 +51,7 @@
   },
   "assumptions": [
     "Runoff calendar: schedules open AR/AP only; no new sales or purchases are created",
-    "AR timing draws from historical customer payment delays; overdue invoices use residual delay",
+    "AR timing draws from historical customer payment delays; due/overdue invoices use residual delay",
     "AP pays gross at due date (next day if already overdue); discounts are not auto-applied",
     "Recurring overhead resamples historical cash flows not linked to invoice/bill settlements",
     "No default losses, taxes, capex, financing, or committed facility draws"
