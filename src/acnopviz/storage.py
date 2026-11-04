@@ -97,66 +97,90 @@ class Storage:
                 "meta",
             ):
                 conn.execute(f"DELETE FROM {table}")  # fixed allow-list, never user input
-            conn.executemany("INSERT INTO meta VALUES (?,?)", list(dataset["meta"].items()))
-            conn.executemany(
-                "INSERT INTO customers VALUES (?,?,?,?)",
-                [
-                    (r["id"], r["name"], r["segment"], r["payment_terms_days"])
-                    for r in dataset["customers"]
-                ],
-            )
-            conn.executemany(
-                "INSERT INTO vendors VALUES (?,?,?)",
-                [(r["id"], r["name"], r["category"]) for r in dataset["vendors"]],
-            )
-            conn.executemany(
-                "INSERT INTO invoices VALUES (?,?,?,?,?,?,?)",
-                [
-                    (
-                        r["id"],
-                        r["customer_id"],
-                        r["issue_date"],
-                        r["due_date"],
-                        r["amount_cents"],
-                        r.get("paid_date"),
-                        r.get("paid_amount_cents"),
-                    )
-                    for r in dataset["invoices"]
-                ],
-            )
-            conn.executemany(
-                "INSERT INTO bills VALUES (?,?,?,?,?,?,?,?,?,?,?)",
-                [
-                    (
-                        r["id"],
-                        r["vendor_id"],
-                        r["invoice_number"],
-                        r["issue_date"],
-                        r["due_date"],
-                        r["amount_cents"],
-                        r.get("paid_date"),
-                        r.get("paid_amount_cents"),
-                        r["category"],
-                        r.get("discount_percent", 0),
-                        r.get("discount_days", 0),
-                    )
-                    for r in dataset["bills"]
-                ],
-            )
-            conn.executemany(
-                "INSERT INTO cash_transactions VALUES (?,?,?,?,?,?,?)",
-                [
-                    (
-                        r["id"],
-                        r["txn_date"],
-                        r["amount_cents"],
-                        r["category"],
-                        r["description"],
-                        r.get("source_type"),
-                        r.get("source_id"),
-                    )
-                    for r in dataset["cash_transactions"]
-                ],
+            self._write_ledger(conn, dataset)
+
+    @staticmethod
+    def _write_ledger(conn: sqlite3.Connection, dataset: dict[str, Any]) -> None:
+        conn.executemany("INSERT INTO meta VALUES (?,?)", list(dataset["meta"].items()))
+        conn.executemany(
+            "INSERT INTO customers VALUES (?,?,?,?)",
+            [
+                (r["id"], r["name"], r["segment"], r["payment_terms_days"])
+                for r in dataset["customers"]
+            ],
+        )
+        conn.executemany(
+            "INSERT INTO vendors VALUES (?,?,?)",
+            [(r["id"], r["name"], r["category"]) for r in dataset["vendors"]],
+        )
+        conn.executemany(
+            "INSERT INTO invoices VALUES (?,?,?,?,?,?,?)",
+            [
+                (
+                    r["id"],
+                    r["customer_id"],
+                    r["issue_date"],
+                    r["due_date"],
+                    r["amount_cents"],
+                    r.get("paid_date"),
+                    r.get("paid_amount_cents"),
+                )
+                for r in dataset["invoices"]
+            ],
+        )
+        conn.executemany(
+            "INSERT INTO bills VALUES (?,?,?,?,?,?,?,?,?,?,?)",
+            [
+                (
+                    r["id"],
+                    r["vendor_id"],
+                    r["invoice_number"],
+                    r["issue_date"],
+                    r["due_date"],
+                    r["amount_cents"],
+                    r.get("paid_date"),
+                    r.get("paid_amount_cents"),
+                    r["category"],
+                    r.get("discount_percent", 0),
+                    r.get("discount_days", 0),
+                )
+                for r in dataset["bills"]
+            ],
+        )
+        conn.executemany(
+            "INSERT INTO cash_transactions VALUES (?,?,?,?,?,?,?)",
+            [
+                (
+                    r["id"],
+                    r["txn_date"],
+                    r["amount_cents"],
+                    r["category"],
+                    r["description"],
+                    r.get("source_type"),
+                    r.get("source_id"),
+                )
+                for r in dataset["cash_transactions"]
+            ],
+        )
+
+    def import_dataset(self, dataset: dict[str, Any], detail: dict[str, Any]) -> None:
+        """Atomically replace ledger/meta/reviews, preserve audit history, append import event."""
+        now = utc_now()
+        with self.connect() as conn:
+            for table in (
+                "cash_transactions",
+                "bills",
+                "invoices",
+                "vendors",
+                "customers",
+                "reviews",
+                "meta",
+            ):
+                conn.execute(f"DELETE FROM {table}")  # fixed allow-list
+            self._write_ledger(conn, dataset)
+            conn.execute(
+                "INSERT INTO audit(event_type,entity_id,detail_json,created_at) VALUES (?,?,?,?)",
+                ("dataset.import", detail.get("fingerprint", ""), json.dumps(detail), now),
             )
 
     def load(self) -> dict[str, Any]:

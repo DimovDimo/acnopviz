@@ -1,0 +1,59 @@
+{
+  "as_of": "2026-10-31",
+  "horizon": 3,
+  "paths": 200,
+  "block": 2,
+  "seed": 111,
+  "starting_cash": 110.0,
+  "months": [
+    {
+      "month": "2026-11",
+      "ar_receipts": 110.0,
+      "ap_payments": 40.0,
+      "recurring_net": -10.0,
+      "expected_net": 60.0,
+      "expected_ending_cash": 170.0,
+      "p10_ending_cash": 170.0,
+      "p50_ending_cash": 170.0,
+      "p90_ending_cash": 170.0
+    },
+    {
+      "month": "2026-12",
+      "ar_receipts": 0.0,
+      "ap_payments": 0.0,
+      "recurring_net": -10.0,
+      "expected_net": -10.0,
+      "expected_ending_cash": 160.0,
+      "p10_ending_cash": 160.0,
+      "p50_ending_cash": 160.0,
+      "p90_ending_cash": 160.0
+    },
+    {
+      "month": "2027-01",
+      "ar_receipts": 0.0,
+      "ap_payments": 0.0,
+      "recurring_net": -10.0,
+      "expected_net": -10.0,
+      "expected_ending_cash": 150.0,
+      "p10_ending_cash": 150.0,
+      "p50_ending_cash": 150.0,
+      "p90_ending_cash": 150.0
+    }
+  ],
+  "prob_negative": 0.0,
+  "reserve_for_90pct_paths": 0.0,
+  "totals": {
+    "open_ar": 110.0,
+    "open_ap": 40.0,
+    "ar_scheduled": 110.0,
+    "ap_scheduled": 40.0,
+    "recurring_monthly_median": -10.0
+  },
+  "assumptions": [
+    "Runoff calendar: schedules open AR/AP only; no new sales or purchases are created",
+    "AR timing draws from historical customer payment delays; overdue invoices use residual delay",
+    "AP pays gross at due date (next day if already overdue); discounts are not auto-applied",
+    "Recurring overhead resamples historical cash flows not linked to invoice/bill settlements",
+    "No default losses, taxes, capex, financing, or committed facility draws"
+  ]
+}

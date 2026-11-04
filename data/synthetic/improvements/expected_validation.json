@@ -1,0 +1,40 @@
+{
+  "valid": {
+    "ok": true,
+    "errors": [],
+    "counts": {
+      "customers": 2,
+      "vendors": 2,
+      "invoices": 3,
+      "bills": 2,
+      "cash_transactions": 4
+    },
+    "fingerprint": "a8e0999d9c2facc1f67be313686a425a56460098ea3261b7e70067cbae150b5c",
+    "as_of": "2026-10-31"
+  },
+  "invalid": {
+    "ok": false,
+    "errors": [
+      {
+        "table": "invoices",
+        "row": 4,
+        "field": "customer_id",
+        "message": "unknown customer"
+      },
+      {
+        "table": "bills",
+        "row": 3,
+        "field": "amount_cents",
+        "message": "must be >= 1"
+      },
+      {
+        "table": "cash_transactions",
+        "row": 3,
+        "field": "amount_cents",
+        "message": "AP payment must equal negative settlement amount"
+      }
+    ],
+    "counts": {},
+    "fingerprint": null
+  }
+}

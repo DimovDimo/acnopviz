@@ -12,10 +12,13 @@ from fastapi.responses import FileResponse, StreamingResponse
 from fastapi.staticfiles import StaticFiles
 
 from . import __version__
+from .analysis.backtest import walk_forward_backtest
+from .analysis.calendar import cash_calendar
 from .analysis.engine import build_recommendations, data_quality, liquidity_simulation, overview
 from .config import Settings
+from .ingest import TABLES, parse_bundle, validate_bundle
 from .money import dollars
-from .schemas import ReviewRequest, ScenarioRequest
+from .schemas import ImportCommitRequest, ImportValidateRequest, ReviewRequest, ScenarioRequest
 from .storage import Storage
 from .synthetic import generate_dataset
 
@@ -289,6 +292,71 @@ def create_app(settings: Settings | None = None) -> FastAPI:
             if offset >= page["total"]:
                 break
         return csv_response(all_rows, "acnopviz-transactions.csv")
+
+    @app.get("/api/cash-calendar", tags=["analytics"])
+    def get_cash_calendar(horizon: int = Query(6, ge=1, le=12), store: Storage = Store) -> dict:
+        return cash_calendar(
+            store.load(), horizon, settings.bootstrap_paths, settings.bootstrap_block, settings.seed
+        )
+
+    @app.get("/api/backtest", tags=["analytics"])
+    def get_backtest(
+        horizon: int = Query(3, ge=1, le=6),
+        min_train: int = Query(9, ge=6, le=36),
+        store: Storage = Store,
+    ) -> dict:
+        paths = min(500, max(100, settings.bootstrap_paths))
+        return walk_forward_backtest(
+            store.load(), horizon, min_train, paths, settings.bootstrap_block, settings.seed
+        )
+
+    @app.get("/api/import/template", tags=["import"])
+    def import_template() -> dict:
+        import csv
+        import io
+
+        files = {}
+        for table, headers in TABLES.items():
+            buf = io.StringIO()
+            csv.writer(buf).writerow(headers)
+            files[table] = buf.getvalue()
+        return {
+            "manifest": {
+                "name": "acnopviz-import",
+                "version": "1.1.0",
+                "synthetic": True,
+                "currency": "USD",
+                "schema_version": 1,
+                "seed": 1,
+                "as_of": "2026-10-31",
+                "opening_cash_cents": 0,
+            },
+            "files": files,
+        }
+
+    @app.post("/api/import/validate", tags=["import"])
+    def import_validate(body: ImportValidateRequest) -> dict:
+        return validate_bundle(body.manifest, body.files)
+
+    @app.post("/api/import/commit", tags=["import"])
+    def import_commit(body: ImportCommitRequest, store: Storage = Store) -> dict:
+        report = validate_bundle(body.manifest, body.files)
+        if not report["ok"]:
+            raise HTTPException(
+                400, detail={"message": "Invalid bundle", "errors": report["errors"]}
+            )
+        if report["fingerprint"] != body.fingerprint:
+            raise HTTPException(409, "Bundle fingerprint changed; re-validate before committing")
+        dataset, errors = parse_bundle(body.manifest, body.files)
+        if dataset is None:
+            raise HTTPException(400, detail={"message": "Invalid bundle", "errors": errors})
+        detail = {
+            "fingerprint": report["fingerprint"],
+            "counts": report["counts"],
+            "as_of": report["as_of"],
+        }
+        store.import_dataset(dataset, detail)
+        return {"ok": True, **detail}
 
     @app.get("/", include_in_schema=False)
     def index() -> FileResponse:

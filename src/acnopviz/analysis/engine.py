@@ -404,12 +404,16 @@ def liquidity_simulation(
     series = monthly_cash_series(dataset["cash_transactions"], dataset["meta"]["as_of"])
     net = [r["net"] for r in series]
     cash = cash_balance(dataset)
-    base = moving_block_bootstrap(net, cash, horizon, paths, block, seed)
+    # Small imported ledgers may have fewer months than the configured block.
+    # Fall back to one-month blocks (or a zero-flow placeholder) instead of failing.
+    effective_block = min(block, len(net)) if net else 1
+    bootstrap_net = net if net else [0.0]
+    base = moving_block_bootstrap(bootstrap_net, cash, horizon, paths, effective_block, seed)
     avg_payments = float(np.mean([r["payments"] for r in series])) if series else 0.0
     monthly_savings = avg_payments * expense_reduction
     one_time = overview(dataset)["overdue_ar"] * recovery_uplift
     scenario = moving_block_bootstrap(
-        net, cash, horizon, paths, block, seed, monthly_savings, one_time
+        bootstrap_net, cash, horizon, paths, effective_block, seed, monthly_savings, one_time
     )
     return {
         "baseline": base,

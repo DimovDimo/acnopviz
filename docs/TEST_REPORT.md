@@ -1,4 +1,4 @@
-# Test report v1.0.0
+# Test report v1.1.0
 
 Executed: 2026-11-04 (UTC) in the Arena sandbox.
 
@@ -13,28 +13,26 @@ Executed: 2026-11-04 (UTC) in the Arena sandbox.
 | Command | Result |
 |---|---|
 | `python -m ruff check src tests` | All checks passed |
-| `python -m ruff format --check src tests` | 18 files already formatted |
-| `python -m pytest -q --cov=acnopviz --cov-report=term-missing` | **43 passed**, 0 failed, 0 warnings |
-| Coverage | **98% line coverage** (702 statements, 11 missed) |
+| `python -m ruff format --check src tests` | 23 files already formatted |
+| `python -m pytest -q --cov=acnopviz --cov-report=term-missing` | **63 passed**, 0 failed, 0 warnings |
+| Coverage | **97% line coverage** (1121 statements, 38 missed) |
 | `python -m pip_audit --progress-spinner off` | No known vulnerabilities found; local package `acnopviz` skipped because it is not on PyPI |
-| Live smoke: `GET /api/health` | `{"status":"ok","version":"1.0.0",...}` |
-| Browser console capture on dashboard | No console errors/warnings |
+| Live smoke | `/api/health`, `/api/cash-calendar`, `/api/backtest`, import validate/commit exercised |
+| Browser console capture | No dashboard console errors/warnings |
 
 ## Test types
-- **Unit:** money rounding, Wilson interval, Holm adjustment, Theil-Sen/Kendall trend, discount yield, moving-block bootstrap, duplicate matching, recommendation stability, data-quality failure detection, SQLite constraints, CLI seed/report.
-- **Integration:** real ASGI app with temporary SQLite; health/security headers; overview/manifest; recommendation detail; review persistence across app instances; validation; scenario monotonicity; transaction filter/search/pagination; SQL-injection-style search safety; CSV export completeness and formula protection; OpenAPI/static serving; recommendation latency < 2 s.
-- **End-to-end:** Playwright Chromium desktop flow (overview → recommendation review → audit → scenario → transactions → data quality → methodology) and mobile navigation.
-- **Statistical sanity:** deterministic dataset, no future-paid leakage, known increasing/decreasing/flat trends, bootstrap reproducibility, monotonic scenario improvement, planted signal detection.
+- **Unit:** money, Wilson/Holm/Theil-Sen/bootstrap, duplicate matching, recommendation stability, cash-calendar scheduling/no-double-count/overdue residual/reproducibility/empty recurring history, backtest leakage/metrics/bounds, CSV ingestion valid/invalid/malformed/duplicate-header/manifest/field/reference/paid-consistency/bounds, SQLite atomic rollback and audit preservation, CLI.
+- **Integration:** real ASGI app with temporary SQLite; existing v1.0 flows; cash-calendar and backtest endpoints; import validate read-only behavior; invalid commit 400; confirmation 422; fingerprint mismatch 409; successful commit changes manifest, clears reviews, appends audit; template endpoint; CSV export safety; latency.
+- **End-to-end:** Playwright desktop review/scenario/transaction/quality/methodology flow, mobile navigation, and v1.1 cash-calendar → backtest → file-upload import flow.
+- **Statistical sanity:** deterministic dataset, no future-paid leakage, known trend signals, bootstrap reproducibility, monotonic scenario improvement, planted signal detection, walk-forward fold boundaries.
 
-## Bugs found and fixed during verification
-1. **Bootstrap quantile axis:** quantiles were initially computed across months per path instead of across paths per month. Fixed to `axis=0`; added horizon/monotonicity assertions.
-2. **Wilson boundary floating point:** upper bound could be `0.9999999999999999` for 10/10. Fixed explicit boundary clamping and float casting.
-3. **Synthetic discount settlement double conversion:** discounted AP paid amount was converted to cents twice. Fixed to round once from integer cents.
-4. **CSP/preview compatibility:** removed inline styles and `X-Frame-Options` so the strict CSP and Arena iframe preview work.
-5. **E2E selector ambiguity:** navigation selector tightened to avoid matching the overview call-to-action button.
+## Bugs found and fixed during v1.1 verification
+1. **Unhandled malformed CSV:** `csv.DictReader` could raise `csv.Error` during row iteration. Fixed by catching parser errors and returning structured validation failures.
+2. **Short imported history:** valid small ledgers with fewer months than the configured bootstrap block caused liquidity/recommendation endpoints to raise `ValueError`. Fixed with a one-month-block fallback (zero-flow placeholder for empty history).
+3. **E2E selector ambiguity (v1.0 carryover):** navigation selectors remain scoped to `.nav-item` to avoid matching call-to-action buttons.
 
 ## Known limitations
-- Results are validated on synthetic data only; no real-world accuracy or savings claim.
-- CI dependency audit is allowed to report advisories without failing the demo pipeline (`continue-on-error`); production should gate on policy.
-- Docker image build was not executed in this sandbox; Dockerfile/compose are provided and follow the same install/run path.
+- Synthetic data only; backtest coverage on the bundled dataset is diagnostic and may be poor (the v1.1 run showed low empirical coverage), not a production calibration claim.
+- Cash calendar is a runoff forecast and does not model new sales/purchases, defaults, taxes, capex, or financing.
+- Docker image build was not executed in this sandbox; Dockerfile/compose follow the same install/run path.
 - Accessibility was checked via keyboard-focusable controls, labels, text chart alternatives, and browser smoke tests; a full assistive-technology audit is still recommended.

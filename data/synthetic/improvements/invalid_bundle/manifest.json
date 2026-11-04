@@ -1,0 +1,10 @@
+{
+  "name": "acnopviz-improvement-fixture",
+  "version": "1.1.0",
+  "synthetic": true,
+  "currency": "USD",
+  "schema_version": 1,
+  "seed": 111,
+  "as_of": "2026-10-31",
+  "opening_cash_cents": 10000
+}

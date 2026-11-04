@@ -183,13 +183,83 @@ function loadMethod() {
   </div>`;
 }
 
-const titles = { overview: ["Overview", "Statistically-based accounting optimization suggestions"], recommendations: ["Recommendations", "Evidence-backed review queue"], scenario: ["Scenario lab", "Liquidity stress testing"], transactions: ["Transactions", "Synthetic ledger browser"], quality: ["Data quality", "Integrity checks and manifest"], audit: ["Review audit", "Persisted human decisions"], method: ["Methodology", "Methods, assumptions, and limits"] };
+
+async function loadCalendar() {
+  $("#view-calendar").innerHTML = `<p class="section-intro">Committed runoff calendar: schedules open AR/AP and resamples only unlinked recurring cash flows. It does not create new sales or purchases.</p>
+    <div class="toolbar"><label>Horizon<select id="cal-horizon">${[3,6,9,12].map(h=>`<option value="${h}" ${h===6?"selected":""}>${h} months</option>`).join("")}</select></label><button class="button" id="cal-run">Refresh</button></div><div id="cal-result"><div class="loading">Loading…</div></div>`;
+  $("#cal-run").addEventListener("click", runCalendar); $("#cal-horizon").addEventListener("change", runCalendar);
+  await runCalendar();
+}
+async function runCalendar() {
+  const h = Number($("#cal-horizon").value);
+  const c = await api(`/api/cash-calendar?horizon=${h}`);
+  $("#cal-result").innerHTML = `<div class="grid kpis">
+    <div class="card"><div class="kpi-label">P(negative month-end)</div><div class="kpi-value">${pct(c.prob_negative)}</div><div class="kpi-foot">${c.paths.toLocaleString()} seeded paths</div></div>
+    <div class="card"><div class="kpi-label">Reserve (90% paths)</div><div class="kpi-value">${money.format(c.reserve_for_90pct_paths)}</div><div class="kpi-foot">Additional buffer illustration</div></div>
+    <div class="card"><div class="kpi-label">Open AR scheduled</div><div class="kpi-value">${money.format(c.totals.ar_scheduled)}</div><div class="kpi-foot">Total open ${money.format(c.totals.open_ar)}</div></div>
+    <div class="card"><div class="kpi-label">Open AP scheduled</div><div class="kpi-value">${money.format(c.totals.ap_scheduled)}</div><div class="kpi-foot">Total open ${money.format(c.totals.open_ap)}</div></div></div>
+    <div class="card mt16"><h2>Ending cash quantiles</h2>${lineChart(c.months, ["p10_ending_cash","p50_ending_cash","p90_ending_cash"], ["P10","P50","P90"], ["#99f6e4","#0f766e","#ccfbf1"], 240)}</div>
+    <div class="table-wrap mt16"><table><thead><tr><th>Month</th><th class="num">AR receipts</th><th class="num">AP payments</th><th class="num">Recurring net</th><th class="num">Expected net</th><th class="num">Expected ending</th><th class="num">P10 ending</th><th class="num">P90 ending</th></tr></thead><tbody>
+    ${c.months.map(m=>`<tr><td>${esc(m.month)}</td><td class="num">${money.format(m.ar_receipts)}</td><td class="num">${money.format(m.ap_payments)}</td><td class="num">${money.format(m.recurring_net)}</td><td class="num">${money.format(m.expected_net)}</td><td class="num">${money.format(m.expected_ending_cash)}</td><td class="num">${money.format(m.p10_ending_cash)}</td><td class="num">${money.format(m.p90_ending_cash)}</td></tr>`).join("")}</tbody></table></div>
+    <div class="card mt16"><h2>Assumptions</h2><ul>${c.assumptions.map(a=>`<li>${esc(a)}</li>`).join("")}</ul></div>`;
+}
+async function loadBacktest() {
+  $("#view-backtest").innerHTML = `<p class="section-intro">Expanding-window walk-forward validation of the historical monthly liquidity model. Synthetic-only; overlapping folds are not independent.</p>
+    <div class="toolbar"><label>Horizon<select id="bt-horizon">${[1,2,3,6].map(h=>`<option value="${h}" ${h===3?"selected":""}>${h} months</option>`).join("")}</select></label>
+    <label>Min train months<input id="bt-min" type="number" min="6" max="36" value="9"></label><button class="button" id="bt-run">Run backtest</button></div><div id="bt-result"><div class="loading">Loading…</div></div>`;
+  $("#bt-run").addEventListener("click", runBacktest); await runBacktest();
+}
+async function runBacktest() {
+  const h = Number($("#bt-horizon").value), min = Number($("#bt-min").value);
+  const b = await api(`/api/backtest?horizon=${h}&min_train=${min}`);
+  if (b.status !== "ok") { $("#bt-result").innerHTML = `<div class="card empty">Insufficient history for these settings.</div>`; return; }
+  $("#bt-result").innerHTML = `<div class="grid kpis">
+    <div class="card"><div class="kpi-label">Bootstrap MAE</div><div class="kpi-value">${money.format(b.bootstrap.mae)}</div><div class="kpi-foot">Naive last ${money.format(b.naive_last.mae)}</div></div>
+    <div class="card"><div class="kpi-label">P10–P90 coverage</div><div class="kpi-value">${pct(b.bootstrap.coverage_p10_p90)}</div><div class="kpi-foot">Target 80% · ${b.fold_count} folds</div></div>
+    <div class="card"><div class="kpi-label">Bias</div><div class="kpi-value">${money.format(b.bootstrap.bias)}</div><div class="kpi-foot">Predicted minus actual cumulative net</div></div>
+    <div class="card"><div class="kpi-label">Lower MAE</div><div class="kpi-value">${esc(b.lower_mae_model)}</div><div class="kpi-foot">RMSE ${money.format(b.bootstrap.rmse)}</div></div></div>
+    <div class="table-wrap mt16"><table><thead><tr><th>Origin</th><th>Train months</th><th>Test months</th><th class="num">Bootstrap MAE</th><th class="num">Naive MAE</th><th class="num">Coverage</th></tr></thead><tbody>
+    ${b.folds.map(f=>`<tr><td>${esc(f.origin_month)}</td><td>${f.train_months}</td><td>${esc(f.test_months.join(", "))}</td><td class="num">${money.format(f.bootstrap_metrics.mae)}</td><td class="num">${money.format(f.naive_metrics.mae)}</td><td class="num">${pct(f.bootstrap_metrics.coverage_p10_p90)}</td></tr>`).join("")}</tbody></table></div>
+    <div class="card mt16"><h2>Limitations</h2><ul>${b.limitations.map(l=>`<li>${esc(l)}</li>`).join("")}</ul></div>`;
+}
+function loadImport() {
+  const tables = ["customers","vendors","invoices","bills","cash_transactions"];
+  $("#view-import").innerHTML = `<p class="section-intro">Replace the demo ledger with a validated synthetic CSV bundle. Validation is read-only; commit requires confirmation and replaces ledger/review state atomically.</p>
+    <div class="card"><div class="toolbar"><button class="button secondary" id="imp-template">Download template</button></div>
+    <div class="grid two"><label>manifest.json<input id="imp-manifest" type="file" accept=".json,application/json"></label>
+    ${tables.map(t=>`<label>${t}.csv<input id="imp-${t}" type="file" accept=".csv,text/csv" data-table="${t}"></label>`).join("")}</div>
+    <div class="toolbar mt16"><button class="button" id="imp-validate">Validate bundle</button><label class="check"><input id="imp-confirm" type="checkbox"> I understand this replaces the ledger and clears reviews</label><button class="button danger" id="imp-commit" disabled>Commit replace</button></div></div>
+    <div id="imp-result" class="mt16"></div>`;
+  $("#imp-template").addEventListener("click", async () => { const t = await api("/api/import/template"); const blob = new Blob([JSON.stringify(t, null, 2)], {type:"application/json"}); const a = document.createElement("a"); a.href = URL.createObjectURL(blob); a.download = "acnopviz-import-template.json"; a.click(); URL.revokeObjectURL(a.href); });
+  $("#imp-validate").addEventListener("click", async () => {
+    try {
+      const manifestFile = $("#imp-manifest").files[0]; if (!manifestFile) throw new Error("Choose manifest.json");
+      const manifest = JSON.parse(await manifestFile.text()); const files = {};
+      for (const t of tables) { const f = $(`#imp-${t}`).files[0]; if (!f) throw new Error(`Choose ${t}.csv`); files[t] = await f.text(); }
+      const report = await api("/api/import/validate", {method:"POST", body: JSON.stringify({manifest, files})});
+      state.importBundle = {manifest, files, report};
+      $("#imp-commit").disabled = !report.ok;
+      $("#imp-result").innerHTML = report.ok ? `<div class="card"><h2>Valid bundle</h2><p>Fingerprint <code>${esc(report.fingerprint)}</code></p><pre class="formula">${esc(JSON.stringify(report.counts,null,2))}</pre></div>` : `<div class="card"><h2>Validation errors</h2><div class="table-wrap"><table><thead><tr><th>Table</th><th>Row</th><th>Field</th><th>Message</th></tr></thead><tbody>${report.errors.map(e=>`<tr><td>${esc(e.table)}</td><td>${esc(e.row??"")}</td><td>${esc(e.field??"")}</td><td>${esc(e.message)}</td></tr>`).join("")}</tbody></table></div></div>`;
+    } catch(e){ showAlert(e); }
+  });
+  $("#imp-commit").addEventListener("click", async () => {
+    try {
+      if (!$("#imp-confirm").checked) throw new Error("Confirm replacement first");
+      const b = state.importBundle; if (!b?.report?.ok) throw new Error("Validate a bundle first");
+      const res = await api("/api/import/commit", {method:"POST", body: JSON.stringify({manifest:b.manifest, files:b.files, confirm:"REPLACE", fingerprint:b.report.fingerprint})});
+      toast("Ledger replaced"); state.importBundle = null; $("#imp-commit").disabled = true;
+      $("#imp-result").innerHTML = `<div class="card"><h2>Import committed</h2><pre class="formula">${esc(JSON.stringify(res,null,2))}</pre></div>`;
+    } catch(e){ showAlert(e); }
+  });
+}
+
+const titles = { overview: ["Overview", "Statistically-based accounting optimization suggestions"], recommendations: ["Recommendations", "Evidence-backed review queue"], scenario: ["Scenario lab", "Liquidity stress testing"], calendar: ["Cash calendar", "Committed AR/AP runoff forecast"], backtest: ["Model validation", "Walk-forward backtest"], import: ["Import data", "Validated synthetic CSV bundle"], transactions: ["Transactions", "Synthetic ledger browser"], quality: ["Data quality", "Integrity checks and manifest"], audit: ["Review audit", "Persisted human decisions"], method: ["Methodology", "Methods, assumptions, and limits"] };
 async function switchView(view) {
   state.view = view;
   $$(".nav-item").forEach(b => { const active = b.dataset.view === view; b.classList.toggle("active", active); if (active) b.setAttribute("aria-current", "page"); else b.removeAttribute("aria-current"); });
   $$(".view").forEach(s => { s.hidden = s.id !== `view-${view}`; });
   $("#view-title").textContent = titles[view][0]; $("#view-subtitle").textContent = titles[view][1]; $("#alert").hidden = true;
-  const loaders = { overview: loadOverview, recommendations: loadRecommendations, scenario: loadScenario, transactions: loadTransactions, quality: loadQuality, audit: loadAudit, method: loadMethod };
+  const loaders = { overview: loadOverview, recommendations: loadRecommendations, scenario: loadScenario, calendar: loadCalendar, backtest: loadBacktest, import: loadImport, transactions: loadTransactions, quality: loadQuality, audit: loadAudit, method: loadMethod };
   try { await loaders[view](); } catch (e) { showAlert(e); }
 }
 $$(".nav-item").forEach(b => b.addEventListener("click", () => switchView(b.dataset.view)));

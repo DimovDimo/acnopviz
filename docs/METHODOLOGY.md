@@ -47,3 +47,18 @@ Checks include customer/vendor references, positive amounts, no future-paid docu
 
 ## 7. What this does not do
 No Benford's law, deep learning, tax optimization, automatic payments, journal posting, or claims of validated real-world savings. See [RESEARCH.md](RESEARCH.md) for trade-offs.
+
+## 8. Committed cash calendar (v1.1)
+`analysis/calendar.py` builds a runoff forecast from the snapshot:
+- **Open AR:** for each simulated path, draw a historical payment delay for the customer (fallback: portfolio). Future-due invoices receipt at `due + max(0, delay)`. Overdue invoices use residual delay `max(1, delay - days_overdue)`. Amounts are gross; no default loss is modeled.
+- **Open AP:** pay gross at due date, or the next day if already overdue. Discounts are not automatically applied.
+- **Recurring overhead:** resample historical monthly cash flows whose `source_type` is not `invoice` or `bill`. This exclusion prevents double counting linked settlements.
+- Combine components into simulated ending-cash paths; report expected monthly components, P10/P50/P90 ending cash, probability of any negative month-end balance, and reserve for the 10th-percentile minimum balance.
+
+This is a **runoff** calendar: it does not create new sales or purchases after the snapshot. Long horizons can therefore decline even when the near-term expected balance is positive.
+
+## 9. Walk-forward backtest (v1.1)
+`analysis/backtest.py` evaluates the historical monthly net-flow bootstrap with expanding windows. Default: `min_train=9`, `horizon=3`, step 1. Each fold uses only training months, compares bootstrap median cumulative net flow with a naive last-value benchmark, and reports MAE, RMSE, bias, P10-P90 coverage, and mean interval width. Overlapping folds are not independent; synthetic results are not evidence of real-world skill.
+
+## 10. CSV bundle import (v1.1)
+`ingest.py` validates a manifest plus five CSV strings. Checks include exact headers, required fields, integer cents, ISO dates, unique IDs, foreign keys, settlement consistency, one linked cash transaction per paid document, source-date/amount matching, and no future-paid records. Validation is read-only and returns a SHA-256 fingerprint. Commit requires `confirm="REPLACE"` and the same fingerprint, revalidates, and replaces ledger/meta/reviews in one SQLite transaction while appending a `dataset.import` audit event.

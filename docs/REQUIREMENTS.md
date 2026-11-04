@@ -62,3 +62,7 @@ Unknown recommendation IDs return 404. Invalid numeric inputs return 422. Review
 
 ## Out of scope
 Tax/legal advice, production ERP integration, multi-tenant auth, automatic payments, statutory financial statements, and claims of validated real-world savings.
+
+
+## v1.1.0 improvements
+See [IMPROVEMENT_REQUIREMENTS.md](IMPROVEMENT_REQUIREMENTS.md) for FR-101-FR-103 and NFR-101-NFR-105.

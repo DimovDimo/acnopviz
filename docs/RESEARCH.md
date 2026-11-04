@@ -49,3 +49,7 @@ A small, local-first architecture is appropriate for the requested deliverable:
 ## 6. Limitations
 
 The bundled data is synthetic and intentionally contains review candidates. Results demonstrate software behavior, not empirical accuracy on a real business. Production use would require real-data validation, accounting policy review, authentication/authorization, encryption/backup policy, ERP reconciliation, jurisdiction-specific rules, and monitoring for drift.
+
+
+## v1.1.0 follow-up research
+See [IMPROVEMENT_RESEARCH.md](IMPROVEMENT_RESEARCH.md) for direct cash forecasting, walk-forward validation, and CSV/SQLite atomic import research.

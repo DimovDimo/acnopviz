@@ -3,6 +3,7 @@ from __future__ import annotations
 import socket
 import threading
 import time
+from pathlib import Path
 
 import pytest
 import uvicorn
@@ -89,4 +90,33 @@ def test_mobile_navigation(browser, live_url):
     expect(page.locator("#view-title")).to_have_text("Overview")
     page.get_by_role("button", name="Scenario lab").click()
     expect(page.locator("#scenario-form")).to_be_visible()
+    page.close()
+
+
+def test_v11_calendar_backtest_and_import(browser, live_url, tmp_path):
+    page = browser.new_page(viewport={"width": 1440, "height": 1000})
+    errors = []
+    page.on("pageerror", lambda e: errors.append(str(e)))
+    page.goto(live_url)
+    page.locator('.nav-item[data-view="calendar"]').click()
+    expect(page.locator("#view-title")).to_have_text("Cash calendar")
+    expect(page.locator("#cal-result")).to_contain_text("P(negative month-end)")
+    expect(page.locator("#cal-result table tbody tr")).to_have_count(6)
+    page.locator('.nav-item[data-view="backtest"]').click()
+    expect(page.locator("#bt-result")).to_contain_text("Bootstrap MAE")
+    page.locator('.nav-item[data-view="import"]').click()
+    fixture = (
+        Path(__file__).resolve().parents[2] / "data" / "synthetic" / "improvements" / "valid_bundle"
+    )
+    page.locator("#imp-manifest").set_input_files(str(fixture / "manifest.json"))
+    for table in ["customers", "vendors", "invoices", "bills", "cash_transactions"]:
+        page.locator(f"#imp-{table}").set_input_files(str(fixture / f"{table}.csv"))
+    page.get_by_role("button", name="Validate bundle").click()
+    expect(page.locator("#imp-result")).to_contain_text("Valid bundle")
+    page.locator("#imp-confirm").check()
+    page.get_by_role("button", name="Commit replace").click()
+    expect(page.locator("#toast")).to_contain_text("Ledger replaced")
+    page.locator('.nav-item[data-view="quality"]').click()
+    expect(page.locator("#view-quality")).to_contain_text('"seed": 111')
+    assert not errors, errors
     page.close()

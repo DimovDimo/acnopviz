@@ -15,3 +15,13 @@ class ScenarioRequest(BaseModel):
     horizon: int = Field(default=6, ge=1, le=12)
     recovery_uplift: float = Field(default=0.0, ge=0, le=0.5)
     expense_reduction: float = Field(default=0.0, ge=0, le=0.3)
+
+
+class ImportValidateRequest(BaseModel):
+    manifest: dict
+    files: dict[str, str]
+
+
+class ImportCommitRequest(ImportValidateRequest):
+    confirm: Literal["REPLACE"]
+    fingerprint: str = Field(min_length=64, max_length=64, pattern=r"^[0-9a-f]{64}$")

@@ -20,3 +20,11 @@
 
 ## Reporting
 Open a GitHub issue for non-sensitive bugs. For sensitive vulnerabilities, use a private security advisory once the repository is published. Do not include real accounting data in reports.
+
+## v1.1 import hardening
+- CSV bundle payload bounded to 2 MiB total and 5,000 rows per table; validation reports at most 100 errors.
+- Strict CSV parsing (`csv.DictReader(..., strict=True)`) with malformed-quote handling.
+- Dry-run validation performs no writes; commit revalidates and checks a SHA-256 fingerprint plus explicit `REPLACE` confirmation.
+- Replacement is a single SQLite transaction; failed writes rollback and preserve prior ledger/audit state.
+- Import clears review state because old recommendation evidence no longer applies; audit history is preserved and an import event is appended.
+- The importer is intentionally restricted to synthetic USD bundles; it is not a production ERP ingestion path.

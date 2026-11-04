@@ -57,3 +57,15 @@ Synthetic dataset: 18 complete months (2025-05 through 2026-10), as-of 2026-10-3
 
 ## Planted signals
 The generator intentionally creates late-paying customers, three duplicate bill pairs, discount-eligible open bills, and recurring software spend drift. The analytics engine receives only ordinary ledger records; it does not receive signal labels.
+
+## v1.1 improvement fixtures
+`data/synthetic/improvements/` contains:
+- `valid_bundle/manifest.json` + five CSVs: a small synthetic ledger that passes import validation.
+- `invalid_bundle/`: the same bundle with an unknown customer, negative bill amount, and settlement mismatch.
+- `expected_validation.json`: expected validation reports for both bundles.
+- `cash_calendar_fixture.json`: seeded runoff calendar output for the valid bundle.
+
+Regenerate with `python scripts/generate_improvement_fixtures.py`.
+
+## Import bundle contract
+The importer accepts the same five CSV tables described above plus a manifest with `name`, `version`, `synthetic=true`, `currency="USD"`, `schema_version=1`, `seed`, `as_of`, and `opening_cash_cents`. Empty optional CSV cells represent null. Paid documents require exactly one linked cash transaction with matching date and settlement amount.
