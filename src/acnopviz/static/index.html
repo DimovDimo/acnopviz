@@ -1,0 +1,47 @@
+<!doctype html>
+<html lang="en">
+<head>
+  <meta charset="utf-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <title>acnopviz — Accounting optimization signals</title>
+  <link rel="stylesheet" href="/static/styles.css">
+  <link rel="icon" href="data:image/svg+xml,%3Csvg xmlns='http://www.w3.org/2000/svg' viewBox='0 0 32 32'%3E%3Crect width='32' height='32' rx='8' fill='%230f766e'/%3E%3Cpath d='M8 22V10h4l4 7 4-7h4v12h-4v-5l-4 6-4-6v5z' fill='white'/%3E%3C/svg%3E">
+</head>
+<body>
+  <a class="skip-link" href="#main">Skip to content</a>
+  <div class="shell">
+    <aside class="sidebar" aria-label="Primary navigation">
+      <div class="brand"><span class="brand-mark" aria-hidden="true">▦</span><div><strong>acnopviz</strong><small>accounting intelligence</small></div></div>
+      <nav class="nav" aria-label="Sections">
+        <button class="nav-item active" data-view="overview" aria-current="page">Overview</button>
+        <button class="nav-item" data-view="recommendations">Recommendations <span id="nav-rec-count" class="pill"></span></button>
+        <button class="nav-item" data-view="scenario">Scenario lab</button>
+        <button class="nav-item" data-view="transactions">Transactions</button>
+        <button class="nav-item" data-view="quality">Data quality</button>
+        <button class="nav-item" data-view="audit">Review audit</button>
+        <button class="nav-item" data-view="method">Methodology</button>
+      </nav>
+      <div class="sidebar-note"><strong>Synthetic demo</strong><p>Human review only. No payments are executed and no journals are posted.</p></div>
+    </aside>
+    <div class="content">
+      <header class="topbar">
+        <div><h1 id="view-title">Overview</h1><p id="view-subtitle">Statistically-based accounting optimization suggestions</p></div>
+        <div class="topbar-actions"><span class="badge">Synthetic data</span><span id="as-of" class="muted"></span><a class="button secondary" href="/docs" target="_blank" rel="noopener">API docs</a></div>
+      </header>
+      <main id="main" tabindex="-1">
+        <div id="alert" class="alert" role="alert" hidden></div>
+        <section id="view-overview" class="view" aria-labelledby="view-title"></section>
+        <section id="view-recommendations" class="view" hidden aria-labelledby="view-title"></section>
+        <section id="view-scenario" class="view" hidden aria-labelledby="view-title"></section>
+        <section id="view-transactions" class="view" hidden aria-labelledby="view-title"></section>
+        <section id="view-quality" class="view" hidden aria-labelledby="view-title"></section>
+        <section id="view-audit" class="view" hidden aria-labelledby="view-title"></section>
+        <section id="view-method" class="view" hidden aria-labelledby="view-title"></section>
+      </main>
+      <footer class="footer">acnopviz v1.0.0 · Local-first demo · Not accounting, tax, legal, or investment advice.</footer>
+    </div>
+  </div>
+  <div id="toast" class="toast" role="status" aria-live="polite" hidden></div>
+  <script src="/static/app.js" defer></script>
+</body>
+</html>

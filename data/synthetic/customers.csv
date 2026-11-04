@@ -1,0 +1,9 @@
+id,name,segment,payment_terms_days
+C01,Northwind Studio,Enterprise,30
+C02,Blue Harbor Retail,Mid-market,30
+C03,Cedar Labs,Enterprise,45
+C04,Delta Field Services,Mid-market,30
+C05,Evergreen Health,Enterprise,45
+C06,Fjord Logistics,SMB,30
+C07,Golden Gate Media,SMB,30
+C08,Horizon Education,Mid-market,30

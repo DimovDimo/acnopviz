@@ -1,0 +1,14 @@
+services:
+  acnopviz:
+    build: .
+    ports:
+      - "8000:8000"
+    environment:
+      ACNOPVIZ_DB: /app/data/acnopviz.db
+      ACNOPVIZ_SEED: "20261104"
+      ACNOPVIZ_AS_OF: "2026-10-31"
+    volumes:
+      - acnopviz-data:/app/data
+    restart: unless-stopped
+volumes:
+  acnopviz-data:

@@ -1,0 +1,31 @@
+{
+  "name": "acnopviz-synthetic-ledger",
+  "version": "1.0.0",
+  "seed": 20261104,
+  "as_of": "2026-10-31",
+  "currency": "USD",
+  "opening_cash_cents": 2500000,
+  "synthetic": true,
+  "files": {
+    "customers.csv": {
+      "rows": 8,
+      "sha256": "e3ee5417a713df51483fca102399ae4f8a6cec37649486f8187c1446a60394ca"
+    },
+    "vendors.csv": {
+      "rows": 8,
+      "sha256": "f8cdcaab1b138c2c3e72552ec7812ebfe1c602e32a456875b4b6c30c48c9e8e5"
+    },
+    "invoices.csv": {
+      "rows": 250,
+      "sha256": "d7a0e09d5e004075ff016e1eb031665208a7e17228175716e5319fe4342aece5"
+    },
+    "bills.csv": {
+      "rows": 244,
+      "sha256": "854bb1e0d57228852badc687c11275c9f6dd4ec0cbce11d73684fe6fe21d0aa8"
+    },
+    "cash_transactions.csv": {
+      "rows": 493,
+      "sha256": "11221428595361794fecc865f635e7486dafdd7b94a1a27279eeefe14061e57a"
+    }
+  }
+}

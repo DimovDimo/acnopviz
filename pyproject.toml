@@ -1,0 +1,60 @@
+[build-system]
+requires = ["setuptools>=68", "wheel"]
+build-backend = "setuptools.build_meta"
+
+[project]
+name = "acnopviz"
+version = "1.0.0"
+description = "Explainable, statistically-based accounting optimization suggestions on a synthetic demo ledger."
+readme = "README.md"
+requires-python = ">=3.11"
+license = {text = "MIT"}
+authors = [{name = "acnopviz contributors"}]
+dependencies = [
+  "fastapi>=0.115,<1",
+  "uvicorn[standard]>=0.30,<1",
+  "numpy>=1.26,<3",
+  "scipy>=1.11,<2",
+  "pydantic>=2.8,<3",
+]
+
+[project.optional-dependencies]
+dev = [
+  "pytest>=8,<10",
+  "pytest-cov>=5,<8",
+  "httpx>=0.27,<1",
+  "httpx2>=2,<3",
+  "ruff>=0.6",
+  "playwright>=1.48,<2",
+  "pip-audit>=2.7,<3",
+]
+
+[project.scripts]
+acnopviz = "acnopviz.cli:main"
+
+[tool.setuptools.packages.find]
+where = ["src"]
+
+[tool.setuptools.package-data]
+acnopviz = ["static/*"]
+
+[tool.pytest.ini_options]
+testpaths = ["tests"]
+addopts = "-ra --strict-markers"
+markers = [
+  "e2e: browser tests requiring Playwright Chromium",
+  "slow: statistical or performance checks",
+]
+
+[tool.ruff]
+target-version = "py311"
+line-length = 100
+src = ["src", "tests"]
+
+[tool.ruff.lint]
+select = ["E", "F", "I", "UP", "B", "SIM"]
+ignore = ["E501"]
+
+[tool.coverage.run]
+source = ["acnopviz"]
+omit = ["*/static/*"]

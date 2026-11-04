@@ -1,0 +1,494 @@
+id,txn_date,amount_cents,category,description,source_type,source_id
+TX00002,2025-05-30,551010,Receipts,Receipt AR00002 from Fjord Logistics,invoice,AR00002
+TX00028,2025-05-31,-4218736,Payroll,Payroll 2025-05,,
+TX00029,2025-05-31,-850000,Facilities,Office rent 2025-05,,
+TX00030,2025-05-31,-113863,Facilities,Utilities 2025-05,,
+TX00016,2025-06-02,-172121,Professional services,Payment AP00002 to Ledger & Co Advisors,bill,AP00002
+TX00024,2025-06-02,-342808,Marketing,Payment AP00010 to Signal Ads Co,bill,AP00010
+TX00008,2025-06-03,1077744,Receipts,Receipt AR00009 from Northwind Studio,invoice,AR00009
+TX00026,2025-06-03,-425362,Software,Recurring payment AP00012,bill,AP00012
+TX00027,2025-06-03,-254851,Marketing,Recurring payment AP00013,bill,AP00013
+TX00007,2025-06-07,1293471,Receipts,Receipt AR00008 from Horizon Education,invoice,AR00008
+TX00020,2025-06-09,-140271,Logistics,Payment AP00006 to RouteOne Freight,bill,AP00006
+TX00001,2025-06-11,875243,Receipts,Receipt AR00001 from Fjord Logistics,invoice,AR00001
+TX00048,2025-06-11,-463164,Professional services,Payment AP00020 to Ledger & Co Advisors,bill,AP00020
+TX00003,2025-06-13,1268588,Receipts,Receipt AR00004 from Fjord Logistics,invoice,AR00004
+TX00025,2025-06-13,-345305,Professional services,Payment AP00011 to Ledger & Co Advisors,bill,AP00011
+TX00022,2025-06-18,-160987,Professional services,Payment AP00008 to Ledger & Co Advisors,bill,AP00008
+TX00021,2025-06-19,-421466,Facilities,Payment AP00007 to Workplace Utilities,bill,AP00007
+TX00018,2025-06-21,-134363,Marketing,Payment AP00004 to Signal Ads Co,bill,AP00004
+TX00004,2025-06-23,469802,Receipts,Receipt AR00005 from Evergreen Health,invoice,AR00005
+TX00015,2025-06-24,-306655,Marketing,Payment AP00001 to Signal Ads Co,bill,AP00001
+TX00023,2025-06-24,-267951,Facilities,Payment AP00009 to Workplace Utilities,bill,AP00009
+TX00019,2025-06-25,-104180,Professional services,Payment AP00005 to Ledger & Co Advisors,bill,AP00005
+TX00017,2025-06-26,-110428,Marketing,Payment AP00003 to Signal Ads Co,bill,AP00003
+TX00014,2025-06-27,594371,Receipts,Receipt AR00015 from Blue Harbor Retail,invoice,AR00015
+TX00057,2025-06-30,-4199453,Payroll,Payroll 2025-06,,
+TX00058,2025-06-30,-850000,Facilities,Office rent 2025-06,,
+TX00059,2025-06-30,-124296,Facilities,Utilities 2025-06,,
+TX00049,2025-07-01,-67617,Marketing,Payment AP00021 to Signal Ads Co,bill,AP00021
+TX00009,2025-07-02,692519,Receipts,Receipt AR00010 from Evergreen Health,invoice,AR00010
+TX00046,2025-07-02,-378398,Marketing,Payment AP00018 to Brandcraft Agency,bill,AP00018
+TX00055,2025-07-04,-452431,Software,Recurring payment AP00027,bill,AP00027
+TX00056,2025-07-04,-263019,Marketing,Recurring payment AP00028,bill,AP00028
+TX00005,2025-07-05,1104749,Receipts,Receipt AR00006 from Delta Field Services,invoice,AR00006
+TX00037,2025-07-05,1378197,Receipts,Receipt AR00022 from Golden Gate Media,invoice,AR00022
+TX00012,2025-07-08,1346262,Receipts,Receipt AR00013 from Evergreen Health,invoice,AR00013
+TX00010,2025-07-10,720181,Receipts,Receipt AR00011 from Fjord Logistics,invoice,AR00011
+TX00047,2025-07-10,-351193,Facilities,Payment AP00019 to Workplace Utilities,bill,AP00019
+TX00042,2025-07-11,-316944,Travel,Payment AP00014 to Travelwise,bill,AP00014
+TX00051,2025-07-12,-493682,Facilities,Payment AP00023 to Workplace Utilities,bill,AP00023
+TX00038,2025-07-13,949521,Receipts,Receipt AR00023 from Blue Harbor Retail,invoice,AR00023
+TX00043,2025-07-15,-376536,Facilities,Payment AP00015 to Workplace Utilities,bill,AP00015
+TX00050,2025-07-15,-324224,Travel,Payment AP00022 to Travelwise,bill,AP00022
+TX00052,2025-07-15,-494493,Facilities,Payment AP00024 to Workplace Utilities,bill,AP00024
+TX00053,2025-07-16,-184919,Travel,Payment AP00025 to Travelwise,bill,AP00025
+TX00033,2025-07-17,750973,Receipts,Receipt AR00018 from Horizon Education,invoice,AR00018
+TX00045,2025-07-17,-447690,Logistics,Payment AP00017 to RouteOne Freight,bill,AP00017
+TX00054,2025-07-18,-219875,Travel,Payment AP00026 to Travelwise,bill,AP00026
+TX00006,2025-07-20,830947,Receipts,Receipt AR00007 from Blue Harbor Retail,invoice,AR00007
+TX00034,2025-07-21,1277451,Receipts,Receipt AR00019 from Golden Gate Media,invoice,AR00019
+TX00044,2025-07-23,-420088,Facilities,Payment AP00016 to Workplace Utilities,bill,AP00016
+TX00032,2025-07-24,1192798,Receipts,Receipt AR00017 from Evergreen Health,invoice,AR00017
+TX00031,2025-07-26,786707,Receipts,Receipt AR00016 from Northwind Studio,invoice,AR00016
+TX00013,2025-07-27,1016077,Receipts,Receipt AR00014 from Fjord Logistics,invoice,AR00014
+TX00041,2025-07-30,305335,Receipts,Receipt AR00027 from Golden Gate Media,invoice,AR00027
+TX00064,2025-07-30,221821,Receipts,Receipt AR00032 from Horizon Education,invoice,AR00032
+TX00011,2025-07-31,207055,Receipts,Receipt AR00012 from Golden Gate Media,invoice,AR00012
+TX00091,2025-07-31,-4149053,Payroll,Payroll 2025-07,,
+TX00092,2025-07-31,-850000,Facilities,Office rent 2025-07,,
+TX00093,2025-07-31,-97558,Facilities,Utilities 2025-07,,
+TX00036,2025-08-01,502528,Receipts,Receipt AR00021 from Delta Field Services,invoice,AR00021
+TX00075,2025-08-01,1173046,Receipts,Receipt AR00043 from Fjord Logistics,invoice,AR00043
+TX00040,2025-08-03,1230393,Receipts,Receipt AR00026 from Blue Harbor Retail,invoice,AR00026
+TX00089,2025-08-03,-473946,Software,Recurring payment AP00042,bill,AP00042
+TX00090,2025-08-03,-265238,Marketing,Recurring payment AP00043,bill,AP00043
+TX00084,2025-08-06,-382720,Marketing,Payment AP00037 to Brandcraft Agency,bill,AP00037
+TX00085,2025-08-06,-432644,Facilities,Payment AP00038 to Workplace Utilities,bill,AP00038
+TX00080,2025-08-07,-149849,Professional services,Payment AP00033 to Ledger & Co Advisors,bill,AP00033
+TX00039,2025-08-09,331635,Receipts,Receipt AR00025 from Horizon Education,invoice,AR00025
+TX00067,2025-08-10,704370,Receipts,Receipt AR00035 from Golden Gate Media,invoice,AR00035
+TX00076,2025-08-10,-543869,Marketing,Payment AP00029 to Signal Ads Co,bill,AP00029
+TX00081,2025-08-10,-79793,Marketing,Payment AP00034 to Brandcraft Agency,bill,AP00034
+TX00087,2025-08-12,-120835,Facilities,Payment AP00040 to Workplace Utilities,bill,AP00040
+TX00061,2025-08-14,788949,Receipts,Receipt AR00029 from Northwind Studio,invoice,AR00029
+TX00068,2025-08-15,772498,Receipts,Receipt AR00036 from Blue Harbor Retail,invoice,AR00036
+TX00077,2025-08-15,-196772,Marketing,Payment AP00030 to Brandcraft Agency,bill,AP00030
+TX00086,2025-08-15,-518491,Travel,Payment AP00039 to Travelwise,bill,AP00039
+TX00078,2025-08-17,-189654,Professional services,Payment AP00031 to Ledger & Co Advisors,bill,AP00031
+TX00088,2025-08-18,-200558,Logistics,Payment AP00041 to RouteOne Freight,bill,AP00041
+TX00079,2025-08-20,-134056,Logistics,Payment AP00032 to RouteOne Freight,bill,AP00032
+TX00060,2025-08-21,238356,Receipts,Receipt AR00028 from Cedar Labs,invoice,AR00028
+TX00082,2025-08-21,-262510,Facilities,Payment AP00035 to Workplace Utilities,bill,AP00035
+TX00035,2025-08-23,1291924,Receipts,Receipt AR00020 from Cedar Labs,invoice,AR00020
+TX00083,2025-08-23,-141274,Logistics,Payment AP00036 to RouteOne Freight,bill,AP00036
+TX00074,2025-08-24,630828,Receipts,Receipt AR00042 from Fjord Logistics,invoice,AR00042
+TX00066,2025-08-28,999640,Receipts,Receipt AR00034 from Fjord Logistics,invoice,AR00034
+TX00073,2025-08-28,882356,Receipts,Receipt AR00041 from Golden Gate Media,invoice,AR00041
+TX00105,2025-08-31,-471951,Facilities,Payment AP00046 to Workplace Utilities,bill,AP00046
+TX00111,2025-08-31,-133830,Facilities,Payment AP00052 to Workplace Utilities,bill,AP00052
+TX00112,2025-08-31,-115271,Logistics,Payment AP00053 to RouteOne Freight,bill,AP00053
+TX00116,2025-08-31,-4260608,Payroll,Payroll 2025-08,,
+TX00117,2025-08-31,-850000,Facilities,Office rent 2025-08,,
+TX00118,2025-08-31,-91161,Facilities,Utilities 2025-08,,
+TX00101,2025-09-01,1275458,Receipts,Receipt AR00054 from Northwind Studio,invoice,AR00054
+TX00114,2025-09-03,-507762,Software,Recurring payment AP00055,bill,AP00055
+TX00115,2025-09-03,-275088,Marketing,Recurring payment AP00056,bill,AP00056
+TX00097,2025-09-08,692848,Receipts,Receipt AR00049 from Golden Gate Media,invoice,AR00049
+TX00104,2025-09-09,-141923,Professional services,Payment AP00045 to Ledger & Co Advisors,bill,AP00045
+TX00094,2025-09-10,663263,Receipts,Receipt AR00044 from Fjord Logistics,invoice,AR00044
+TX00107,2025-09-10,-108866,Marketing,Payment AP00048 to Signal Ads Co,bill,AP00048
+TX00095,2025-09-11,327626,Receipts,Receipt AR00046 from Fjord Logistics,invoice,AR00046
+TX00065,2025-09-12,425570,Receipts,Receipt AR00033 from Evergreen Health,invoice,AR00033
+TX00070,2025-09-13,559463,Receipts,Receipt AR00038 from Fjord Logistics,invoice,AR00038
+TX00113,2025-09-15,-321249,Logistics,Payment AP00054 to RouteOne Freight,bill,AP00054
+TX00100,2025-09-16,802298,Receipts,Receipt AR00053 from Cedar Labs,invoice,AR00053
+TX00103,2025-09-18,-365260,Facilities,Payment AP00044 to Workplace Utilities,bill,AP00044
+TX00106,2025-09-18,-450245,Facilities,Payment AP00047 to Workplace Utilities,bill,AP00047
+TX00110,2025-09-18,-358785,Logistics,Payment AP00051 to RouteOne Freight,bill,AP00051
+TX00138,2025-09-18,-379027,Professional services,Payment AP00065 to Ledger & Co Advisors,bill,AP00065
+TX00071,2025-09-19,795692,Receipts,Receipt AR00039 from Evergreen Health,invoice,AR00039
+TX00108,2025-09-19,-90924,Logistics,Payment AP00049 to RouteOne Freight,bill,AP00049
+TX00099,2025-09-21,1253792,Receipts,Receipt AR00051 from Blue Harbor Retail,invoice,AR00051
+TX00102,2025-09-22,509722,Receipts,Receipt AR00055 from Fjord Logistics,invoice,AR00055
+TX00062,2025-09-25,820962,Receipts,Receipt AR00030 from Golden Gate Media,invoice,AR00030
+TX00109,2025-09-25,-250152,Marketing,Payment AP00050 to Signal Ads Co,bill,AP00050
+TX00063,2025-09-26,588628,Receipts,Receipt AR00031 from Evergreen Health,invoice,AR00031
+TX00069,2025-09-26,266345,Receipts,Receipt AR00037 from Blue Harbor Retail,invoice,AR00037
+TX00145,2025-09-30,-4221988,Payroll,Payroll 2025-09,,
+TX00146,2025-09-30,-850000,Facilities,Office rent 2025-09,,
+TX00147,2025-09-30,-142446,Facilities,Utilities 2025-09,,
+TX00072,2025-10-01,954785,Receipts,Receipt AR00040 from Blue Harbor Retail,invoice,AR00040
+TX00132,2025-10-01,-83308,Logistics,Payment AP00059 to RouteOne Freight,bill,AP00059
+TX00128,2025-10-02,1166590,Receipts,Receipt AR00065 from Northwind Studio,invoice,AR00065
+TX00135,2025-10-02,-479975,Professional services,Payment AP00062 to Ledger & Co Advisors,bill,AP00062
+TX00137,2025-10-04,-506244,Marketing,Payment AP00064 to Brandcraft Agency,bill,AP00064
+TX00143,2025-10-04,-539850,Software,Recurring payment AP00070,bill,AP00070
+TX00144,2025-10-04,-283743,Marketing,Recurring payment AP00071,bill,AP00071
+TX00127,2025-10-07,983248,Receipts,Receipt AR00064 from Golden Gate Media,invoice,AR00064
+TX00119,2025-10-10,240733,Receipts,Receipt AR00056 from Blue Harbor Retail,invoice,AR00056
+TX00131,2025-10-10,-404428,Facilities,Payment AP00058 to Workplace Utilities,bill,AP00058
+TX00122,2025-10-13,1360675,Receipts,Receipt AR00059 from Fjord Logistics,invoice,AR00059
+TX00136,2025-10-13,-225687,Travel,Payment AP00063 to Travelwise,bill,AP00063
+TX00141,2025-10-16,-109036,Marketing,Payment AP00068 to Brandcraft Agency,bill,AP00068
+TX00134,2025-10-17,-485203,Facilities,Payment AP00061 to Workplace Utilities,bill,AP00061
+TX00130,2025-10-20,-143709,Professional services,Payment AP00057 to Ledger & Co Advisors,bill,AP00057
+TX00096,2025-10-22,580239,Receipts,Receipt AR00048 from Delta Field Services,invoice,AR00048
+TX00133,2025-10-22,-383990,Marketing,Payment AP00060 to Brandcraft Agency,bill,AP00060
+TX00139,2025-10-23,-268093,Marketing,Payment AP00066 to Signal Ads Co,bill,AP00066
+TX00098,2025-10-24,823259,Receipts,Receipt AR00050 from Blue Harbor Retail,invoice,AR00050
+TX00121,2025-10-24,916478,Receipts,Receipt AR00058 from Golden Gate Media,invoice,AR00058
+TX00142,2025-10-24,-436736,Facilities,Payment AP00069 to Workplace Utilities,bill,AP00069
+TX00123,2025-10-25,1256753,Receipts,Receipt AR00060 from Cedar Labs,invoice,AR00060
+TX00125,2025-10-25,1394225,Receipts,Receipt AR00062 from Northwind Studio,invoice,AR00062
+TX00126,2025-10-26,293024,Receipts,Receipt AR00063 from Cedar Labs,invoice,AR00063
+TX00140,2025-10-26,-147521,Logistics,Payment AP00067 to RouteOne Freight,bill,AP00067
+TX00148,2025-10-30,327726,Receipts,Receipt AR00069 from Fjord Logistics,invoice,AR00069
+TX00176,2025-10-31,-4296144,Payroll,Payroll 2025-10,,
+TX00177,2025-10-31,-850000,Facilities,Office rent 2025-10,,
+TX00178,2025-10-31,-99502,Facilities,Utilities 2025-10,,
+TX00120,2025-11-02,1235794,Receipts,Receipt AR00057 from Evergreen Health,invoice,AR00057
+TX00161,2025-11-02,-114441,Facilities,Payment AP00072 to Workplace Utilities,bill,AP00072
+TX00129,2025-11-03,610329,Receipts,Receipt AR00066 from Delta Field Services,invoice,AR00066
+TX00174,2025-11-03,-568863,Software,Recurring payment AP00085,bill,AP00085
+TX00175,2025-11-03,-287327,Marketing,Recurring payment AP00086,bill,AP00086
+TX00154,2025-11-04,1138393,Receipts,Receipt AR00075 from Blue Harbor Retail,invoice,AR00075
+TX00158,2025-11-05,961302,Receipts,Receipt AR00079 from Northwind Studio,invoice,AR00079
+TX00168,2025-11-08,-58004,Marketing,Payment AP00079 to Signal Ads Co,bill,AP00079
+TX00164,2025-11-09,-65247,Travel,Payment AP00075 to Travelwise,bill,AP00075
+TX00171,2025-11-10,-162356,Marketing,Payment AP00082 to Signal Ads Co,bill,AP00082
+TX00163,2025-11-11,-391937,Logistics,Payment AP00074 to RouteOne Freight,bill,AP00074
+TX00173,2025-11-11,-79020,Logistics,Payment AP00084 to RouteOne Freight,bill,AP00084
+TX00170,2025-11-15,-401005,Travel,Payment AP00081 to Travelwise,bill,AP00081
+TX00165,2025-11-17,-424361,Logistics,Payment AP00076 to RouteOne Freight,bill,AP00076
+TX00172,2025-11-17,-54580,Facilities,Payment AP00083 to Workplace Utilities,bill,AP00083
+TX00151,2025-11-21,281089,Receipts,Receipt AR00072 from Fjord Logistics,invoice,AR00072
+TX00166,2025-11-22,-271863,Facilities,Payment AP00077 to Workplace Utilities,bill,AP00077
+TX00169,2025-11-23,-241900,Logistics,Payment AP00080 to RouteOne Freight,bill,AP00080
+TX00157,2025-11-24,984189,Receipts,Receipt AR00078 from Golden Gate Media,invoice,AR00078
+TX00159,2025-11-24,1082365,Receipts,Receipt AR00081 from Blue Harbor Retail,invoice,AR00081
+TX00193,2025-11-24,-92461,Professional services,Payment AP00089 to Ledger & Co Advisors,bill,AP00089
+TX00167,2025-11-25,-270761,Marketing,Payment AP00078 to Signal Ads Co,bill,AP00078
+TX00162,2025-11-26,-548252,Marketing,Payment AP00073 to Signal Ads Co,bill,AP00073
+TX00153,2025-11-27,361923,Receipts,Receipt AR00074 from Northwind Studio,invoice,AR00074
+TX00204,2025-11-30,-4270515,Payroll,Payroll 2025-11,,
+TX00205,2025-11-30,-850000,Facilities,Office rent 2025-11,,
+TX00206,2025-11-30,-138297,Facilities,Utilities 2025-11,,
+TX00152,2025-12-02,1252010,Receipts,Receipt AR00073 from Fjord Logistics,invoice,AR00073
+TX00192,2025-12-03,-471392,Facilities,Payment AP00088 to Workplace Utilities,bill,AP00088
+TX00202,2025-12-04,-603861,Software,Recurring payment AP00098,bill,AP00098
+TX00203,2025-12-04,-296738,Marketing,Recurring payment AP00099,bill,AP00099
+TX00124,2025-12-06,589712,Receipts,Receipt AR00061 from Northwind Studio,invoice,AR00061
+TX00150,2025-12-06,645738,Receipts,Receipt AR00071 from Blue Harbor Retail,invoice,AR00071
+TX00156,2025-12-08,951054,Receipts,Receipt AR00077 from Fjord Logistics,invoice,AR00077
+TX00188,2025-12-09,1018380,Receipts,Receipt AR00092 from Horizon Education,invoice,AR00092
+TX00198,2025-12-11,-598328,Marketing,Payment AP00094 to Brandcraft Agency,bill,AP00094
+TX00180,2025-12-12,1017637,Receipts,Receipt AR00084 from Golden Gate Media,invoice,AR00084
+TX00181,2025-12-12,1165052,Receipts,Receipt AR00085 from Northwind Studio,invoice,AR00085
+TX00199,2025-12-12,-514816,Facilities,Payment AP00095 to Workplace Utilities,bill,AP00095
+TX00194,2025-12-13,-547483,Marketing,Payment AP00090 to Signal Ads Co,bill,AP00090
+TX00155,2025-12-14,551116,Receipts,Receipt AR00076 from Evergreen Health,invoice,AR00076
+TX00160,2025-12-14,691868,Receipts,Receipt AR00082 from Northwind Studio,invoice,AR00082
+TX00190,2025-12-14,242501,Receipts,Receipt AR00095 from Golden Gate Media,invoice,AR00095
+TX00191,2025-12-14,-477773,Facilities,Payment AP00087 to Workplace Utilities,bill,AP00087
+TX00201,2025-12-14,-68655,Professional services,Payment AP00097 to Ledger & Co Advisors,bill,AP00097
+TX00187,2025-12-15,1387689,Receipts,Receipt AR00091 from Cedar Labs,invoice,AR00091
+TX00184,2025-12-16,990892,Receipts,Receipt AR00088 from Evergreen Health,invoice,AR00088
+TX00195,2025-12-17,-161736,Travel,Payment AP00091 to Travelwise,bill,AP00091
+TX00185,2025-12-18,478453,Receipts,Receipt AR00089 from Horizon Education,invoice,AR00089
+TX00196,2025-12-18,-423085,Logistics,Payment AP00092 to RouteOne Freight,bill,AP00092
+TX00189,2025-12-19,774091,Receipts,Receipt AR00093 from Evergreen Health,invoice,AR00093
+TX00149,2025-12-21,1158343,Receipts,Receipt AR00070 from Golden Gate Media,invoice,AR00070
+TX00197,2025-12-22,-351453,Travel,Payment AP00093 to Travelwise,bill,AP00093
+TX00200,2025-12-23,-213315,Logistics,Payment AP00096 to RouteOne Freight,bill,AP00096
+TX00182,2025-12-28,964974,Receipts,Receipt AR00086 from Blue Harbor Retail,invoice,AR00086
+TX00179,2025-12-30,1104565,Receipts,Receipt AR00083 from Fjord Logistics,invoice,AR00083
+TX00224,2025-12-31,-500478,Facilities,Payment AP00101 to Workplace Utilities,bill,AP00101
+TX00238,2025-12-31,-4343922,Payroll,Payroll 2025-12,,
+TX00239,2025-12-31,-850000,Facilities,Office rent 2025-12,,
+TX00240,2025-12-31,-110406,Facilities,Utilities 2025-12,,
+TX00234,2026-01-03,-428227,Logistics,Payment AP00111 to RouteOne Freight,bill,AP00111
+TX00236,2026-01-03,-636229,Software,Recurring payment AP00113,bill,AP00113
+TX00237,2026-01-03,-300401,Marketing,Recurring payment AP00114,bill,AP00114
+TX00233,2026-01-06,-69879,Logistics,Payment AP00110 to RouteOne Freight,bill,AP00110
+TX00232,2026-01-08,-434252,Marketing,Payment AP00109 to Brandcraft Agency,bill,AP00109
+TX00213,2026-01-09,261609,Receipts,Receipt AR00102 from Blue Harbor Retail,invoice,AR00102
+TX00230,2026-01-09,-259423,Logistics,Payment AP00107 to RouteOne Freight,bill,AP00107
+TX00223,2026-01-10,-155221,Marketing,Payment AP00100 to Brandcraft Agency,bill,AP00100
+TX00259,2026-01-10,-346913,Professional services,Payment AP00120 to Ledger & Co Advisors,bill,AP00120
+TX00211,2026-01-13,215529,Receipts,Receipt AR00100 from Fjord Logistics,invoice,AR00100
+TX00228,2026-01-13,-166451,Marketing,Payment AP00105 to Signal Ads Co,bill,AP00105
+TX00186,2026-01-14,1344014,Receipts,Receipt AR00090 from Delta Field Services,invoice,AR00090
+TX00209,2026-01-14,238814,Receipts,Receipt AR00098 from Fjord Logistics,invoice,AR00098
+TX00214,2026-01-18,325971,Receipts,Receipt AR00103 from Fjord Logistics,invoice,AR00103
+TX00215,2026-01-18,1033711,Receipts,Receipt AR00104 from Horizon Education,invoice,AR00104
+TX00219,2026-01-19,457356,Receipts,Receipt AR00108 from Delta Field Services,invoice,AR00108
+TX00221,2026-01-19,948881,Receipts,Receipt AR00110 from Horizon Education,invoice,AR00110
+TX00231,2026-01-20,-257606,Professional services,Payment AP00108 to Ledger & Co Advisors,bill,AP00108
+TX00226,2026-01-21,-135915,Travel,Payment AP00103 to Travelwise,bill,AP00103
+TX00229,2026-01-21,-81420,Travel,Payment AP00106 to Travelwise,bill,AP00106
+TX00210,2026-01-22,382016,Receipts,Receipt AR00099 from Delta Field Services,invoice,AR00099
+TX00222,2026-01-22,1252491,Receipts,Receipt AR00111 from Golden Gate Media,invoice,AR00111
+TX00207,2026-01-24,650268,Receipts,Receipt AR00096 from Delta Field Services,invoice,AR00096
+TX00183,2026-01-25,497466,Receipts,Receipt AR00087 from Blue Harbor Retail,invoice,AR00087
+TX00227,2026-01-25,-290396,Marketing,Payment AP00104 to Signal Ads Co,bill,AP00104
+TX00212,2026-01-26,529844,Receipts,Receipt AR00101 from Cedar Labs,invoice,AR00101
+TX00218,2026-01-26,1323362,Receipts,Receipt AR00107 from Evergreen Health,invoice,AR00107
+TX00225,2026-01-26,-174060,Marketing,Payment AP00102 to Brandcraft Agency,bill,AP00102
+TX00235,2026-01-26,-612868,Marketing,Payment AP00112 to Signal Ads Co,bill,AP00112
+TX00208,2026-01-29,204130,Receipts,Receipt AR00097 from Evergreen Health,invoice,AR00097
+TX00242,2026-01-30,390563,Receipts,Receipt AR00113 from Golden Gate Media,invoice,AR00113
+TX00264,2026-01-31,-382253,Marketing,Payment AP00125 to Brandcraft Agency,bill,AP00125
+TX00267,2026-01-31,-4278154,Payroll,Payroll 2026-01,,
+TX00268,2026-01-31,-850000,Facilities,Office rent 2026-01,,
+TX00269,2026-01-31,-95035,Facilities,Utilities 2026-01,,
+TX00220,2026-02-01,1243488,Receipts,Receipt AR00109 from Evergreen Health,invoice,AR00109
+TX00260,2026-02-01,-109876,Facilities,Payment AP00121 to Workplace Utilities,bill,AP00121
+TX00261,2026-02-01,-247046,Logistics,Payment AP00122 to RouteOne Freight,bill,AP00122
+TX00257,2026-02-03,-491226,Marketing,Payment AP00118 to Brandcraft Agency,bill,AP00118
+TX00265,2026-02-03,-652734,Software,Recurring payment AP00126,bill,AP00126
+TX00266,2026-02-03,-305722,Marketing,Recurring payment AP00127,bill,AP00127
+TX00246,2026-02-06,957579,Receipts,Receipt AR00117 from Northwind Studio,invoice,AR00117
+TX00254,2026-02-06,-88297,Facilities,Payment AP00115 to Workplace Utilities,bill,AP00115
+TX00255,2026-02-06,-453480,Travel,Payment AP00116 to Travelwise,bill,AP00116
+TX00247,2026-02-07,534373,Receipts,Receipt AR00118 from Fjord Logistics,invoice,AR00118
+TX00243,2026-02-10,547655,Receipts,Receipt AR00114 from Northwind Studio,invoice,AR00114
+TX00216,2026-02-11,1136565,Receipts,Receipt AR00105 from Blue Harbor Retail,invoice,AR00105
+TX00217,2026-02-13,734270,Receipts,Receipt AR00106 from Evergreen Health,invoice,AR00106
+TX00256,2026-02-13,-160807,Marketing,Payment AP00117 to Brandcraft Agency,bill,AP00117
+TX00241,2026-02-17,1342493,Receipts,Receipt AR00112 from Horizon Education,invoice,AR00112
+TX00245,2026-02-17,409222,Receipts,Receipt AR00116 from Fjord Logistics,invoice,AR00116
+TX00248,2026-02-19,503322,Receipts,Receipt AR00119 from Fjord Logistics,invoice,AR00119
+TX00262,2026-02-20,-360641,Professional services,Payment AP00123 to Ledger & Co Advisors,bill,AP00123
+TX00250,2026-02-21,215794,Receipts,Receipt AR00122 from Delta Field Services,invoice,AR00122
+TX00258,2026-02-21,-411773,Logistics,Payment AP00119 to RouteOne Freight,bill,AP00119
+TX00263,2026-02-21,-497976,Marketing,Payment AP00124 to Signal Ads Co,bill,AP00124
+TX00253,2026-02-28,616120,Receipts,Receipt AR00125 from Cedar Labs,invoice,AR00125
+TX00295,2026-02-28,-4357813,Payroll,Payroll 2026-02,,
+TX00296,2026-02-28,-850000,Facilities,Office rent 2026-02,,
+TX00297,2026-02-28,-130476,Facilities,Utilities 2026-02,,
+TX00252,2026-03-04,252085,Receipts,Receipt AR00124 from Delta Field Services,invoice,AR00124
+TX00290,2026-03-04,-270467,Travel,Payment AP00134 to Travelwise,bill,AP00134
+TX00270,2026-03-05,1232058,Receipts,Receipt AR00127 from Golden Gate Media,invoice,AR00127
+TX00251,2026-03-06,711086,Receipts,Receipt AR00123 from Blue Harbor Retail,invoice,AR00123
+TX00284,2026-03-06,-329329,Travel,Payment AP00128 to Travelwise,bill,AP00128
+TX00291,2026-03-06,-401042,Professional services,Payment AP00135 to Ledger & Co Advisors,bill,AP00135
+TX00293,2026-03-06,-677490,Software,Recurring payment AP00137,bill,AP00137
+TX00294,2026-03-06,-300942,Marketing,Recurring payment AP00138,bill,AP00138
+TX00249,2026-03-11,578753,Receipts,Receipt AR00121 from Evergreen Health,invoice,AR00121
+TX00287,2026-03-11,-110205,Facilities,Payment AP00131 to Workplace Utilities,bill,AP00131
+TX00271,2026-03-12,1137715,Receipts,Receipt AR00128 from Northwind Studio,invoice,AR00128
+TX00279,2026-03-12,1113006,Receipts,Receipt AR00137 from Northwind Studio,invoice,AR00137
+TX00275,2026-03-13,967858,Receipts,Receipt AR00132 from Blue Harbor Retail,invoice,AR00132
+TX00244,2026-03-15,1204388,Receipts,Receipt AR00115 from Golden Gate Media,invoice,AR00115
+TX00272,2026-03-16,1326943,Receipts,Receipt AR00129 from Fjord Logistics,invoice,AR00129
+TX00283,2026-03-19,889783,Receipts,Receipt AR00141 from Northwind Studio,invoice,AR00141
+TX00288,2026-03-19,-123090,Travel,Payment AP00132 to Travelwise,bill,AP00132
+TX00286,2026-03-20,-116959,Logistics,Payment AP00130 to RouteOne Freight,bill,AP00130
+TX00289,2026-03-20,-134218,Travel,Payment AP00133 to Travelwise,bill,AP00133
+TX00277,2026-03-21,1236690,Receipts,Receipt AR00135 from Cedar Labs,invoice,AR00135
+TX00292,2026-03-21,-468933,Travel,Payment AP00136 to Travelwise,bill,AP00136
+TX00276,2026-03-23,419397,Receipts,Receipt AR00134 from Fjord Logistics,invoice,AR00134
+TX00285,2026-03-28,-321097,Travel,Payment AP00129 to Travelwise,bill,AP00129
+TX00280,2026-03-29,294407,Receipts,Receipt AR00138 from Evergreen Health,invoice,AR00138
+TX00300,2026-03-30,226822,Receipts,Receipt AR00144 from Horizon Education,invoice,AR00144
+TX00321,2026-03-31,-146337,Marketing,Payment AP00146 to Signal Ads Co,bill,AP00146
+TX00325,2026-03-31,-4332517,Payroll,Payroll 2026-03,,
+TX00326,2026-03-31,-850000,Facilities,Office rent 2026-03,,
+TX00327,2026-03-31,-153665,Facilities,Utilities 2026-03,,
+TX00316,2026-04-01,-82273,Travel,Payment AP00141 to Travelwise,bill,AP00141
+TX00273,2026-04-03,707511,Receipts,Receipt AR00130 from Golden Gate Media,invoice,AR00130
+TX00282,2026-04-03,1171637,Receipts,Receipt AR00140 from Evergreen Health,invoice,AR00140
+TX00323,2026-04-03,-703450,Software,Recurring payment AP00148,bill,AP00148
+TX00324,2026-04-03,-312705,Marketing,Recurring payment AP00149,bill,AP00149
+TX00320,2026-04-04,-503784,Travel,Payment AP00145 to Travelwise,bill,AP00145
+TX00306,2026-04-05,1110524,Receipts,Receipt AR00150 from Northwind Studio,invoice,AR00150
+TX00309,2026-04-06,1192546,Receipts,Receipt AR00153 from Horizon Education,invoice,AR00153
+TX00310,2026-04-07,1139745,Receipts,Receipt AR00154 from Northwind Studio,invoice,AR00154
+TX00312,2026-04-07,535815,Receipts,Receipt AR00156 from Northwind Studio,invoice,AR00156
+TX00319,2026-04-08,-245690,Travel,Payment AP00144 to Travelwise,bill,AP00144
+TX00304,2026-04-09,995314,Receipts,Receipt AR00148 from Fjord Logistics,invoice,AR00148
+TX00281,2026-04-10,871138,Receipts,Receipt AR00139 from Cedar Labs,invoice,AR00139
+TX00318,2026-04-13,-351202,Facilities,Payment AP00143 to Workplace Utilities,bill,AP00143
+TX00307,2026-04-15,1243513,Receipts,Receipt AR00151 from Horizon Education,invoice,AR00151
+TX00278,2026-04-18,394641,Receipts,Receipt AR00136 from Northwind Studio,invoice,AR00136
+TX00314,2026-04-18,-246563,Marketing,Payment AP00139 to Signal Ads Co,bill,AP00139
+TX00315,2026-04-18,-247590,Professional services,Payment AP00140 to Ledger & Co Advisors,bill,AP00140
+TX00298,2026-04-19,534702,Receipts,Receipt AR00142 from Northwind Studio,invoice,AR00142
+TX00322,2026-04-19,-185903,Marketing,Payment AP00147 to Signal Ads Co,bill,AP00147
+TX00317,2026-04-20,-428197,Professional services,Payment AP00142 to Ledger & Co Advisors,bill,AP00142
+TX00353,2026-04-30,-4370548,Payroll,Payroll 2026-04,,
+TX00354,2026-04-30,-850000,Facilities,Office rent 2026-04,,
+TX00355,2026-04-30,-90278,Facilities,Utilities 2026-04,,
+TX00299,2026-05-01,873229,Receipts,Receipt AR00143 from Blue Harbor Retail,invoice,AR00143
+TX00305,2026-05-01,1065535,Receipts,Receipt AR00149 from Blue Harbor Retail,invoice,AR00149
+TX00308,2026-05-02,186158,Receipts,Receipt AR00152 from Evergreen Health,invoice,AR00152
+TX00340,2026-05-03,-228069,Logistics,Payment AP00151 to RouteOne Freight,bill,AP00151
+TX00303,2026-05-04,1096321,Receipts,Receipt AR00147 from Cedar Labs,invoice,AR00147
+TX00351,2026-05-04,-754283,Software,Recurring payment AP00162,bill,AP00162
+TX00352,2026-05-04,-311971,Marketing,Recurring payment AP00163,bill,AP00163
+TX00301,2026-05-06,823392,Receipts,Receipt AR00145 from Cedar Labs,invoice,AR00145
+TX00330,2026-05-06,583477,Receipts,Receipt AR00160 from Northwind Studio,invoice,AR00160
+TX00311,2026-05-07,777305,Receipts,Receipt AR00155 from Delta Field Services,invoice,AR00155
+TX00349,2026-05-07,-278506,Professional services,Payment AP00160 to Ledger & Co Advisors,bill,AP00160
+TX00313,2026-05-10,323336,Receipts,Receipt AR00157 from Cedar Labs,invoice,AR00157
+TX00346,2026-05-10,-516705,Marketing,Payment AP00157 to Signal Ads Co,bill,AP00157
+TX00348,2026-05-11,-454318,Professional services,Payment AP00159 to Ledger & Co Advisors,bill,AP00159
+TX00350,2026-05-11,-243908,Marketing,Payment AP00161 to Signal Ads Co,bill,AP00161
+TX00335,2026-05-12,239578,Receipts,Receipt AR00166 from Evergreen Health,invoice,AR00166
+TX00274,2026-05-14,1041403,Receipts,Receipt AR00131 from Evergreen Health,invoice,AR00131
+TX00332,2026-05-14,505782,Receipts,Receipt AR00163 from Cedar Labs,invoice,AR00163
+TX00336,2026-05-15,1149492,Receipts,Receipt AR00167 from Evergreen Health,invoice,AR00167
+TX00302,2026-05-16,804200,Receipts,Receipt AR00146 from Evergreen Health,invoice,AR00146
+TX00345,2026-05-17,-237209,Facilities,Payment AP00156 to Workplace Utilities,bill,AP00156
+TX00347,2026-05-17,-303603,Marketing,Payment AP00158 to Brandcraft Agency,bill,AP00158
+TX00338,2026-05-19,612112,Receipts,Receipt AR00169 from Golden Gate Media,invoice,AR00169
+TX00341,2026-05-21,-679761,Marketing,Payment AP00152 to Signal Ads Co,bill,AP00152
+TX00339,2026-05-22,-504548,Travel,Payment AP00150 to Travelwise,bill,AP00150
+TX00343,2026-05-23,-498266,Travel,Payment AP00154 to Travelwise,bill,AP00154
+TX00344,2026-05-23,-80525,Travel,Payment AP00155 to Travelwise,bill,AP00155
+TX00342,2026-05-25,-447757,Marketing,Payment AP00153 to Signal Ads Co,bill,AP00153
+TX00337,2026-05-27,1256732,Receipts,Receipt AR00168 from Cedar Labs,invoice,AR00168
+TX00334,2026-05-28,1234948,Receipts,Receipt AR00165 from Fjord Logistics,invoice,AR00165
+TX00382,2026-05-31,-4329690,Payroll,Payroll 2026-05,,
+TX00383,2026-05-31,-850000,Facilities,Office rent 2026-05,,
+TX00384,2026-05-31,-109882,Facilities,Utilities 2026-05,,
+TX00372,2026-06-01,-387138,Facilities,Payment AP00168 to Workplace Utilities,bill,AP00168
+TX00376,2026-06-03,-53643,Logistics,Payment AP00172 to RouteOne Freight,bill,AP00172
+TX00380,2026-06-03,-770046,Software,Recurring payment AP00176,bill,AP00176
+TX00381,2026-06-03,-324972,Marketing,Recurring payment AP00177,bill,AP00177
+TX00369,2026-06-05,-67531,Travel,Payment AP00165 to Travelwise,bill,AP00165
+TX00374,2026-06-05,-207471,Facilities,Payment AP00170 to Workplace Utilities,bill,AP00170
+TX00377,2026-06-06,-379074,Travel,Payment AP00173 to Travelwise,bill,AP00173
+TX00329,2026-06-08,1315543,Receipts,Receipt AR00159 from Cedar Labs,invoice,AR00159
+TX00331,2026-06-08,1057438,Receipts,Receipt AR00161 from Evergreen Health,invoice,AR00161
+TX00378,2026-06-08,-129411,Marketing,Payment AP00174 to Signal Ads Co,bill,AP00174
+TX00379,2026-06-12,-364002,Travel,Payment AP00175 to Travelwise,bill,AP00175
+TX00328,2026-06-14,1385077,Receipts,Receipt AR00158 from Blue Harbor Retail,invoice,AR00158
+TX00370,2026-06-14,-448673,Marketing,Payment AP00166 to Brandcraft Agency,bill,AP00166
+TX00371,2026-06-14,-462182,Travel,Payment AP00167 to Travelwise,bill,AP00167
+TX00373,2026-06-16,-350106,Professional services,Payment AP00169 to Ledger & Co Advisors,bill,AP00169
+TX00375,2026-06-16,-209394,Marketing,Payment AP00171 to Brandcraft Agency,bill,AP00171
+TX00357,2026-06-17,368646,Receipts,Receipt AR00171 from Fjord Logistics,invoice,AR00171
+TX00362,2026-06-17,613766,Receipts,Receipt AR00176 from Evergreen Health,invoice,AR00176
+TX00358,2026-06-18,443841,Receipts,Receipt AR00172 from Blue Harbor Retail,invoice,AR00172
+TX00364,2026-06-21,1163733,Receipts,Receipt AR00178 from Horizon Education,invoice,AR00178
+TX00363,2026-06-22,1018955,Receipts,Receipt AR00177 from Northwind Studio,invoice,AR00177
+TX00368,2026-06-22,-335108,Logistics,Payment AP00164 to RouteOne Freight,bill,AP00164
+TX00365,2026-06-24,911592,Receipts,Receipt AR00179 from Delta Field Services,invoice,AR00179
+TX00366,2026-06-24,597216,Receipts,Receipt AR00180 from Evergreen Health,invoice,AR00180
+TX00356,2026-06-27,846706,Receipts,Receipt AR00170 from Horizon Education,invoice,AR00170
+TX00367,2026-06-27,551403,Receipts,Receipt AR00181 from Delta Field Services,invoice,AR00181
+TX00386,2026-06-27,1291010,Receipts,Receipt AR00183 from Horizon Education,invoice,AR00183
+TX00333,2026-06-29,1292551,Receipts,Receipt AR00164 from Fjord Logistics,invoice,AR00164
+TX00391,2026-06-29,506161,Receipts,Receipt AR00189 from Horizon Education,invoice,AR00189
+TX00361,2026-06-30,1210146,Receipts,Receipt AR00175 from Cedar Labs,invoice,AR00175
+TX00407,2026-06-30,-4313124,Payroll,Payroll 2026-06,,
+TX00408,2026-06-30,-850000,Facilities,Office rent 2026-06,,
+TX00409,2026-06-30,-96285,Facilities,Utilities 2026-06,,
+TX00399,2026-07-02,-416283,Travel,Payment AP00181 to Travelwise,bill,AP00181
+TX00400,2026-07-02,-179617,Logistics,Payment AP00182 to RouteOne Freight,bill,AP00182
+TX00405,2026-07-04,-817601,Software,Recurring payment AP00187,bill,AP00187
+TX00406,2026-07-04,-325622,Marketing,Recurring payment AP00188,bill,AP00188
+TX00394,2026-07-05,1028897,Receipts,Receipt AR00193 from Fjord Logistics,invoice,AR00193
+TX00388,2026-07-06,1319888,Receipts,Receipt AR00185 from Golden Gate Media,invoice,AR00185
+TX00393,2026-07-06,1375280,Receipts,Receipt AR00191 from Blue Harbor Retail,invoice,AR00191
+TX00404,2026-07-08,-487258,Logistics,Payment AP00186 to RouteOne Freight,bill,AP00186
+TX00360,2026-07-09,1013760,Receipts,Receipt AR00174 from Fjord Logistics,invoice,AR00174
+TX00392,2026-07-09,1373803,Receipts,Receipt AR00190 from Horizon Education,invoice,AR00190
+TX00389,2026-07-11,908323,Receipts,Receipt AR00186 from Horizon Education,invoice,AR00186
+TX00402,2026-07-11,-681231,Marketing,Payment AP00184 to Brandcraft Agency,bill,AP00184
+TX00385,2026-07-15,903018,Receipts,Receipt AR00182 from Golden Gate Media,invoice,AR00182
+TX00401,2026-07-17,-427969,Logistics,Payment AP00183 to RouteOne Freight,bill,AP00183
+TX00397,2026-07-19,-153354,Logistics,Payment AP00179 to RouteOne Freight,bill,AP00179
+TX00398,2026-07-20,-190144,Logistics,Payment AP00180 to RouteOne Freight,bill,AP00180
+TX00488,2026-07-20,-240000,Duplicate candidate,Payment AP00236 (DUP-2026-001),bill,AP00236
+TX00403,2026-07-21,-240515,Travel,Payment AP00185 to Travelwise,bill,AP00185
+TX00387,2026-07-22,221279,Receipts,Receipt AR00184 from Cedar Labs,invoice,AR00184
+TX00489,2026-07-23,-240000,Duplicate candidate,Payment AP00237 (DUP-2026-001),bill,AP00237
+TX00410,2026-07-26,439933,Receipts,Receipt AR00195 from Horizon Education,invoice,AR00195
+TX00416,2026-07-26,298613,Receipts,Receipt AR00202 from Horizon Education,invoice,AR00202
+TX00396,2026-07-27,-140384,Travel,Payment AP00178 to Travelwise,bill,AP00178
+TX00411,2026-07-27,456860,Receipts,Receipt AR00196 from Golden Gate Media,invoice,AR00196
+TX00359,2026-07-28,367279,Receipts,Receipt AR00173 from Delta Field Services,invoice,AR00173
+TX00435,2026-07-31,-4350167,Payroll,Payroll 2026-07,,
+TX00436,2026-07-31,-850000,Facilities,Office rent 2026-07,,
+TX00437,2026-07-31,-96450,Facilities,Utilities 2026-07,,
+TX00395,2026-08-01,734212,Receipts,Receipt AR00194 from Cedar Labs,invoice,AR00194
+TX00425,2026-08-01,-168414,Professional services,Payment AP00191 to Ledger & Co Advisors,bill,AP00191
+TX00433,2026-08-03,-830776,Software,Recurring payment AP00199,bill,AP00199
+TX00434,2026-08-03,-338913,Marketing,Recurring payment AP00200,bill,AP00200
+TX00424,2026-08-04,-103506,Travel,Payment AP00190 to Travelwise,bill,AP00190
+TX00432,2026-08-05,-484878,Marketing,Payment AP00198 to Brandcraft Agency,bill,AP00198
+TX00427,2026-08-06,-109221,Facilities,Payment AP00193 to Workplace Utilities,bill,AP00193
+TX00428,2026-08-06,-98237,Marketing,Payment AP00194 to Brandcraft Agency,bill,AP00194
+TX00413,2026-08-08,877626,Receipts,Receipt AR00199 from Golden Gate Media,invoice,AR00199
+TX00423,2026-08-10,-488595,Marketing,Payment AP00189 to Signal Ads Co,bill,AP00189
+TX00421,2026-08-12,951546,Receipts,Receipt AR00207 from Golden Gate Media,invoice,AR00207
+TX00429,2026-08-12,-281167,Facilities,Payment AP00195 to Workplace Utilities,bill,AP00195
+TX00431,2026-08-12,-110530,Travel,Payment AP00197 to Travelwise,bill,AP00197
+TX00390,2026-08-14,307135,Receipts,Receipt AR00188 from Blue Harbor Retail,invoice,AR00188
+TX00451,2026-08-14,-385243,Professional services,Payment AP00205 to Ledger & Co Advisors,bill,AP00205
+TX00415,2026-08-16,1261691,Receipts,Receipt AR00201 from Golden Gate Media,invoice,AR00201
+TX00430,2026-08-19,-416731,Travel,Payment AP00196 to Travelwise,bill,AP00196
+TX00422,2026-08-20,852636,Receipts,Receipt AR00208 from Cedar Labs,invoice,AR00208
+TX00490,2026-08-20,-315000,Duplicate candidate,Payment AP00238 (DUP-2026-002),bill,AP00238
+TX00414,2026-08-21,385670,Receipts,Receipt AR00200 from Evergreen Health,invoice,AR00200
+TX00491,2026-08-23,-315000,Duplicate candidate,Payment AP00239 (DUP-2026-002),bill,AP00239
+TX00426,2026-08-26,-497152,Facilities,Payment AP00192 to Workplace Utilities,bill,AP00192
+TX00420,2026-08-28,855336,Receipts,Receipt AR00206 from Blue Harbor Retail,invoice,AR00206
+TX00455,2026-08-29,-249549,Professional services,Payment AP00209 to Ledger & Co Advisors,bill,AP00209
+TX00445,2026-08-31,950611,Receipts,Receipt AR00217 from Blue Harbor Retail,invoice,AR00217
+TX00458,2026-08-31,-4347450,Payroll,Payroll 2026-08,,
+TX00459,2026-08-31,-850000,Facilities,Office rent 2026-08,,
+TX00460,2026-08-31,-102688,Facilities,Utilities 2026-08,,
+TX00438,2026-09-01,1161194,Receipts,Receipt AR00209 from Delta Field Services,invoice,AR00209
+TX00454,2026-09-01,-441046,Travel,Payment AP00208 to Travelwise,bill,AP00208
+TX00419,2026-09-02,1257666,Receipts,Receipt AR00205 from Golden Gate Media,invoice,AR00205
+TX00450,2026-09-03,-48059,Facilities,Payment AP00204 to Workplace Utilities,bill,AP00204
+TX00456,2026-09-03,-877291,Software,Recurring payment AP00210,bill,AP00210
+TX00457,2026-09-03,-342464,Marketing,Recurring payment AP00211,bill,AP00211
+TX00453,2026-09-04,-496667,Professional services,Payment AP00207 to Ledger & Co Advisors,bill,AP00207
+TX00447,2026-09-06,-495881,Professional services,Payment AP00201 to Ledger & Co Advisors,bill,AP00201
+TX00442,2026-09-07,1208862,Receipts,Receipt AR00214 from Fjord Logistics,invoice,AR00214
+TX00446,2026-09-08,938563,Receipts,Receipt AR00220 from Horizon Education,invoice,AR00220
+TX00412,2026-09-10,273485,Receipts,Receipt AR00197 from Evergreen Health,invoice,AR00197
+TX00441,2026-09-11,1392525,Receipts,Receipt AR00213 from Northwind Studio,invoice,AR00213
+TX00452,2026-09-13,-167905,Marketing,Payment AP00206 to Signal Ads Co,bill,AP00206
+TX00443,2026-09-15,1144682,Receipts,Receipt AR00215 from Fjord Logistics,invoice,AR00215
+TX00449,2026-09-17,-192868,Marketing,Payment AP00203 to Brandcraft Agency,bill,AP00203
+TX00492,2026-09-20,-390000,Duplicate candidate,Payment AP00240 (DUP-2026-003),bill,AP00240
+TX00417,2026-09-23,221624,Receipts,Receipt AR00203 from Delta Field Services,invoice,AR00203
+TX00493,2026-09-23,-390000,Duplicate candidate,Payment AP00241 (DUP-2026-003),bill,AP00241
+TX00448,2026-09-24,-88057,Marketing,Payment AP00202 to Signal Ads Co,bill,AP00202
+TX00418,2026-09-26,368596,Receipts,Receipt AR00204 from Fjord Logistics,invoice,AR00204
+TX00481,2026-09-30,-4429482,Payroll,Payroll 2026-09,,
+TX00482,2026-09-30,-850000,Facilities,Office rent 2026-09,,
+TX00483,2026-09-30,-143555,Facilities,Utilities 2026-09,,
+TX00469,2026-10-01,1094361,Receipts,Receipt AR00235 from Blue Harbor Retail,invoice,AR00235
+TX00439,2026-10-03,271683,Receipts,Receipt AR00210 from Cedar Labs,invoice,AR00210
+TX00467,2026-10-04,1268211,Receipts,Receipt AR00232 from Northwind Studio,invoice,AR00232
+TX00470,2026-10-04,-224338,Logistics,Payment AP00212 to RouteOne Freight,bill,AP00212
+TX00479,2026-10-04,-893875,Software,Recurring payment AP00221,bill,AP00221
+TX00480,2026-10-04,-341193,Marketing,Recurring payment AP00222,bill,AP00222
+TX00476,2026-10-05,-118001,Logistics,Payment AP00218 to RouteOne Freight,bill,AP00218
+TX00465,2026-10-06,366921,Receipts,Receipt AR00228 from Golden Gate Media,invoice,AR00228
+TX00478,2026-10-06,-321069,Marketing,Payment AP00220 to Brandcraft Agency,bill,AP00220
+TX00461,2026-10-07,1378290,Receipts,Receipt AR00221 from Golden Gate Media,invoice,AR00221
+TX00444,2026-10-08,734565,Receipts,Receipt AR00216 from Delta Field Services,invoice,AR00216
+TX00466,2026-10-08,270535,Receipts,Receipt AR00230 from Northwind Studio,invoice,AR00230
+TX00471,2026-10-08,-63611,Professional services,Payment AP00213 to Ledger & Co Advisors,bill,AP00213
+TX00440,2026-10-10,712973,Receipts,Receipt AR00212 from Delta Field Services,invoice,AR00212
+TX00463,2026-10-12,936862,Receipts,Receipt AR00225 from Northwind Studio,invoice,AR00225
+TX00468,2026-10-16,1207605,Receipts,Receipt AR00233 from Cedar Labs,invoice,AR00233
+TX00473,2026-10-16,-131209,Travel,Payment AP00215 to Travelwise,bill,AP00215
+TX00472,2026-10-19,-779541,Marketing,Payment AP00214 to Signal Ads Co,bill,AP00214
+TX00477,2026-10-19,-160291,Facilities,Payment AP00219 to Workplace Utilities,bill,AP00219
+TX00462,2026-10-22,1326630,Receipts,Receipt AR00224 from Golden Gate Media,invoice,AR00224
+TX00464,2026-10-22,631754,Receipts,Receipt AR00227 from Delta Field Services,invoice,AR00227
+TX00474,2026-10-22,-196674,Travel,Payment AP00216 to Travelwise,bill,AP00216
+TX00475,2026-10-25,-233275,Professional services,Payment AP00217 to Ledger & Co Advisors,bill,AP00217
+TX00484,2026-10-31,-171594,Travel,Payment AP00225 to Travelwise,bill,AP00225
+TX00485,2026-10-31,-4410714,Payroll,Payroll 2026-10,,
+TX00486,2026-10-31,-850000,Facilities,Office rent 2026-10,,
+TX00487,2026-10-31,-116025,Facilities,Utilities 2026-10,,
